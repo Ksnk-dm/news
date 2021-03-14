@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form th:action="edit", method="post">
+<th:block th:each ="newsdetail:${news}">
+    <input name="title" th:value="${newsdetail.title}" placeholder="title">
+    <input name="anonce" th:value="${newsdetail.anonce}" placeholder="anonce">
+    <input name="img" th:value="${newsdetail.img}" placeholder="img">
+    <input name="fullText" th:value="${newsdetail.fullText}" placeholder="fullText">
+    <input name="date" th:value="${newsdetail.date}" placeholder="date">
+    <b th:text="${newsdetail.category.getName()}"/>
+    <select  name="category">
+    <th:block th:each ="category:${category}">
+        <option  th:value="${category.id}" th:text="${category.name}"></option>
+    </th:block>
+    </select>
+</th:block>
+    <input type="submit" class="btn btn-primary" value="update">
+</form>
+</body>
+</html>

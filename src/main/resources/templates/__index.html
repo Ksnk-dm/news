@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/addCategory">добавить категорию</a>
+<a href="/addnews">добавить новость</a></p>
+<p th:text="${test}"></p>
+<div  th:each="el:${newsAll}">
+<p th:text="${el.title}"></p>
+    <p><a th:href="'/news/'+${el.id}">Читать далее</a></p>
+<p th:text="${el.category.name}"></p>
+
+</div>
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <!-- customers pagination -->
+            <nav aria-label="Pagination" th:if="${newsAll.totalPages gt 0}">
+                <ul class="pagination justify-content-center font-weight-bold">
+                    <li class="page-item" th:classappend="${newsAll.number eq 0} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{/?page={id}(id=${newsAll.number lt 2 ? 1 : newsAll.number})}"
+                           aria-label="Previous" title="Текущая страница" data-toggle="tooltip">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:classappend="${i eq newsAll.number + 1} ? 'active'"
+                        th:each="i : ${#numbers.sequence( 1, newsAll.totalPages, 1)}">
+                        <a class="page-link" th:href="@{/?page={id}(id=${i})}" th:text="${i}"
+                           th:title="${'Страница '+ i}" data-toggle="tooltip"></a>
+                    </li>
+                    <li class="page-item" th:classappend="${newsAll.number + 1 eq newsAll.totalPages} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{/?page={id}(id=${newsAll.number + 2})}"
+                           aria-label="Next" title="Следующая страница" data-toggle="tooltip">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>
