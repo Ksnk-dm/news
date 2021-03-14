@@ -137,7 +137,7 @@ public class NewsController {
         }
 
 
-        return "/details";
+        return "details";
     }
 
 
