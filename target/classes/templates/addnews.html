@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<body>
+
+<form action="/news/addnews", method="post">
+<input name="title" placeholder="title">
+<input name="anonce" placeholder="anonce">
+<input name="img"  th:value="${message}">
+<input name="fullText" placeholder="fullText">
+<input name="date" placeholder="date">
+    <input name="video" placeholder="video">
+    <select  name="category">
+        <th:block th:each ="category:${category}">
+            <option  th:value="${category.id}" th:text="${category.name}"></option>
+        </th:block>
+    </select>
+    <input type="submit" class="btn btn-primary" value="Add">
+</form>
+<img border="3" height="450" width="450" th:src="${message}" class="img-fluid" >
+<a th:text="${dir}"></a>
+<form method="POST" th:action="upload" enctype="multipart/form-data">
+    <input type="file" name="file" accept="image/*"/><br/><br/>
+    <input type="submit" value="сохранить"/>
+</form>
+<h1 th:text="${dir}">Spring Boot - Upload Status</h1>
+
+<div th:if="${message}">
+    <h2 th:text="${message}"/>
+</div>
+<p th:text="${dir}"></p>
+
+
+<form method="POST" th:action="del">
+    <input type="submit" value="удалить"/>
+    <input name="img" th:value="${message}" placeholder="img">
+</form>
+
+<button type="button" id="add_news" class="btn btn-default navbar-btn">Add Contact</button>
+<script>
+
+</script>
+</body>
+</html>

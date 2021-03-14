@@ -1,0 +1,231 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" class="no-js" lang="zxx">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>News HTML-5 Template </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/ticker-style.css">
+    <link rel="stylesheet" href="css/flaticon.css">
+    <link rel="stylesheet" href="css/slicknav.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="css/themify-icons.css">
+    <link rel="stylesheet" href="css/slick.css">
+    <link rel="stylesheet" href="css/nice-select.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header th:insert="block/header :: header"></header>
+
+<main>
+    <!-- Trending Area Start -->
+
+    <div class="trending-area fix">
+        <div class="container">
+            <div class="trending-main">
+                <!-- Trending Tittle -->
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="trending-tittle">
+                            <strong>Trending now</strong>
+                            <!-- <p>Rem ipsum dolor sit amet, consectetur adipisicing elit.</p> -->
+                            <div class="trending-animated">
+                                <ul id="js-news" class="js-hidden">
+                                    <li class="news-item">Bangladesh dolor sit amet, consectetur adipisicing elit.</li>
+                                    <li class="news-item">Spondon IT sit amet, consectetur.......</li>
+                                    <li class="news-item">Rem ipsum dolor sit amet, consectetur adipisicing elit.</li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <!-- Trending Top -->
+                        <div th:each="top:${topNews}" class="trending-top mb-30">
+                            <div class="trend-top-img">
+                                <img th:src="${top.img}" alt="">
+                                <div class="trend-top-cap">
+                                    <span th:text="${top.category.name}"></span>
+                                    <h2><a th:href="'/news/'+${top.id}" th:text="${top.title}"></a></h2>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Trending Bottom -->
+                        <div class="trending-bottom">
+                            <div class="row">
+                                <div th:each="all2:${allNews2}" class="col-lg-4">
+                                    <div class="single-bottom mb-35">
+                                        <div class="trend-bottom-img mb-30">
+                                            <img th:src="${all2.img}" alt="">
+                                        </div>
+                                        <div class="trend-bottom-cap">
+                                            <span th:text="${all2.category.name}" class="color1">Lifestyple</span>
+                                            <h4><a th:href="'/news/'+${all2.id}" th:text="${all2.title}">Get the
+                                                Illusion of Fuller Lashes by “Mascng.”</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Riht content -->
+                    <div class="col-lg-4">
+                        <div th:each="all:${allNews}" class="trand-right-single d-flex">
+                            <div class="trand-right-cap">
+                                <span th:text="${all.category.name}" class="color1">Concert</span>
+                                <h4><a th:href="'/news/'+${all.id}" th:text="${all.title}">Welcome To The Best Model
+                                    Winner Contest</a></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Trending Area End -->
+    <!--   Weekly-News start -->
+    <div class="weekly-news-area pt-50">
+        <div class="container">
+            <div class="weekly-wrapper">
+                <!-- section Tittle -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-tittle mb-30">
+                            <h3>Последние новости Украины</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="weekly-news-active dot-style d-flex dot-style">
+                            <div th:each="el, iterStat:${category2}" th:if="${iterStat.index}<5"
+                                 class="weekly-single active">
+                                <div class="weekly-img">
+                                    <img th:src="${el.img}" alt="">
+                                </div>
+                                <div class="weekly-caption">
+                                    <span th:text="${el.category.name}" class="color1">Strike</span>
+                                    <h4><a href="#" th:text="${el.title}"></a></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Start Youtube -->
+    <!-- Start Youtube -->
+    <div class="youtube-area video-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="video-items-active">
+                        <div th:each="video:${all}" class="video-items text-center">
+                            <iframe th:if="${video.video != null}" th:src="${video.video}" frameborder="0"
+                                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="video-info">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="video-caption">
+                            <div class="top-caption">
+                                <span class="color1">Все</span>
+                            </div>
+                            <div class="bottom-caption">
+                                <h2>Видео репортаж новостей</h2>
+                                <p>Видео репортажи, роликов портала, вы можете просмотреть, а так-же перейти на канал
+                                    автора видео. Где сможете оставить лайк и подписаться на его канал.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="testmonial-nav text-center">
+                            <div th:each="video:${all}" th:if="${video.video != ''&&video.video != null}"
+                                 class="single-video">
+                                <iframe th:src="${video.video}" frameborder="0"
+                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen></iframe>
+                                <div class="video-intro">
+                                    <h4 th:text="${video.title}"></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Start youtube -->
+    <!-- End Start youtube -->
+
+</main>
+
+<footer th:insert="block/footer :: footer"></footer>
+
+<!-- JS here -->
+
+<!-- All JS Custom Plugins Link Here here -->
+<script src="./js/vendor/modernizr-3.5.0.min.js"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="./js/vendor/jquery-1.12.4.min.js"></script>
+<script src="./js/popper.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<!-- Jquery Mobile Menu -->
+<script src="./js/jquery.slicknav.min.js"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="./js/owl.carousel.min.js"></script>
+<script src="./js/slick.min.js"></script>
+<!-- Date Picker -->
+<script src="./js/gijgo.min.js"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="./js/wow.min.js"></script>
+<script src="./js/animated.headline.js"></script>
+<script src="./js/jquery.magnific-popup.js"></script>
+
+<!-- Breaking New Pluging -->
+<script src="./js/jquery.ticker.js"></script>
+<script src="./js/site.js"></script>
+
+<!-- Scrollup, nice-select, sticky -->
+<script src="./js/jquery.scrollUp.min.js"></script>
+<script src="./js/jquery.nice-select.min.js"></script>
+<script src="./js/jquery.sticky.js"></script>
+
+<!-- contact js -->
+<script src="./js/contact.js"></script>
+<script src="./js/jquery.form.js"></script>
+<script src="./js/jquery.validate.min.js"></script>
+<script src="./js/mail-script.js"></script>
+<script src="./js/jquery.ajaxchimp.min.js"></script>
+
+<!-- Jquery Plugins, main Jquery -->
+<script src="./js/plugins.js"></script>
+<script src="./js/main.js"></script>
+
+</body>
+</html>
