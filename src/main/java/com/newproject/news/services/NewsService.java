@@ -55,7 +55,7 @@ public class NewsService {
 
     @Transactional(readOnly=true)
     public Boolean findNewsId(long id){
-        return  newsRepository.findById(id).isPresent();
+        return  newsRepository.findById(id).isEmpty();
     }
 
     @Transactional
