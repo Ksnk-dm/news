@@ -103,7 +103,7 @@ public class NewsController {
         return "addnews";
     }
 
-    @GetMapping("/news/{id}")
+    @GetMapping("news/{id}")
     public String newsDetails(@PathVariable(value = "id") String id, Model model, HttpServletRequest request) {
         try {
             News newsPage = newsService.findNewsById(Long.parseLong(id));
