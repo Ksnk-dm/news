@@ -9,6 +9,7 @@ import java.nio.channels.UnresolvedAddressException;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     User findUserByUserName(String username);
+    User findUserByEmail(String email);
     User findByEmail(String email);
     User findByResetPasswordToken(String token);
 }

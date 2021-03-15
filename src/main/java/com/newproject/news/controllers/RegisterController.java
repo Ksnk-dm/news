@@ -32,7 +32,7 @@ public class RegisterController {
             return "register";
         }
         if (!userServise.saveUser(user)){
-            model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
+            model.addAttribute("usernameError", "Пользователь с таким логином или почтой уже существует");
             return "register";
         }
 

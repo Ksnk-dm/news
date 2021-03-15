@@ -43,8 +43,9 @@ public class UserServise implements UserDetailsService {
     }
 
     public boolean saveUser(User user) {
-        User userFromDB = userRepository.findUserByUserName(user.getUserName());
-        if (userFromDB != null) {
+        User userFromDB = userRepository.findUserByUserName(user.getUsername());
+        User userFromDBEmail = userRepository.findByEmail(user.getEmail());
+        if (userFromDB != null||userFromDBEmail!=null) {
             return false;
         }
         user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
@@ -79,7 +80,6 @@ public class UserServise implements UserDetailsService {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(newPassword);
         user.setPassword(encodedPassword);
-
         user.setResetPasswordToken(null);
         userRepository.save(user);
     }
