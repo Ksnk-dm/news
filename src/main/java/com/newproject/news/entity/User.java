@@ -1,6 +1,5 @@
 package com.newproject.news.entity;
 
-import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -20,7 +19,6 @@ public class User implements UserDetails {
     private String password;
     @Transient
     private String passwordConfirm;
-    @Email
     private String email;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
