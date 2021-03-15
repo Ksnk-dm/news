@@ -1,11 +1,13 @@
 package com.newproject.news.entity;
 
+import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -18,11 +20,14 @@ public class User implements UserDetails {
     private String password;
     @Transient
     private String passwordConfirm;
+    @Email
     private String email;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
     @OneToMany
     private List<Comments> comments;
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
 
     public User() {
     }
@@ -86,7 +91,13 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
+    }
 
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -116,6 +127,20 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(userName, user.userName) && Objects.equals(password, user.password) && Objects.equals(passwordConfirm, user.passwordConfirm) && Objects.equals(email, user.email) && Objects.equals(roles, user.roles) && Objects.equals(comments, user.comments) && Objects.equals(resetPasswordToken, user.resetPasswordToken);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userName, password, passwordConfirm, email, roles, comments, resetPasswordToken);
     }
 
     @Override

@@ -38,13 +38,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/news/addnews","/news/upload","/news/del","/news/{id}/del","/news/{id}/edit","/news/addCategory")
                 .hasAnyRole("ADMIN","REDACTOR")
                 .antMatchers("/news/{id}","/news/comments/**").permitAll()
-                .antMatchers("/",  "/resources/**", "/css/**", "/fonts/**", "/img/**", "/js/**","/js/vendor", "/scss/**","/uploads/**").permitAll()
+                .antMatchers("/","/reset_password", "/forgot_password", "/resources/**", "/css/**", "/fonts/**", "/img/**", "/js/**","/js/vendor", "/scss/**","/uploads/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login")
                 .usernameParameter("username")
                 .passwordParameter("pass")
+
                 .permitAll()
+
                 .and()
                 .logout()
                 .permitAll()

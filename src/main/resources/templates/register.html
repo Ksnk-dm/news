@@ -2,25 +2,137 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Регистрация</title>
+    <title>Регистрация нового пользователя</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>News HTML-5 Template </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+
+    <link rel="stylesheet" href="/css/ticker-style.css">
+
+    <link rel="stylesheet" href="/css/flaticon.css">
+
+    <link rel="stylesheet" href="/css/slicknav.css">
+    <link rel="stylesheet" href="/css/animate.min.css">
+    <link rel="stylesheet" href="/css/magnific-popup.css">
+    <link rel="stylesheet" href="/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/css/themify-icons.css">
+    <link rel="stylesheet" href="/css/slick.css">
+    <link rel="stylesheet" href="/css/nice-select.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
 </head>
 <body>
-<h2>Регистрация</h2>
-<div>
-<form th:action="@{/registration}" th:object="${user}" method="post">
-    <input type="text" name="login" th:field="*{userName}"  placeholder="Username">
-<div>
-    <input type="password" name="password" th:field="*{password}" placeholder="Password">
-</div>
-<div>
-    <input type="password" name="confirm"
-                placeholder="Confirm your password">
-    <input type="text" name="email" path="passwordConfirm"
-           placeholder="email">
-</div>
-<button type="submit">Зарегистрироваться</button>
-</form>
-<a href="/">Главная</a>
-</div>
+<header th:insert="block/header :: header"></header>
+
+<main>
+    <!-- About US Start -->
+    <div class="about-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row justify-content-center align-items-center pb-3">
+                        <h2> Регистрация нового пользователя:</h2>
+                    </div>
+
+
+                    <div>
+                        <div class="container pb-5 mb-5">
+                            <div class="row justify-content-center align-items-center pb-3">
+
+                                <form th:action="@{/registration}" th:object="${user}" method="post">
+                                    <div class="mt-10">
+
+                                        <input type="text" name="login" th:field="*{userName}" placeholder="Логин"
+                                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Логин'"
+                                               required class="single-input-secondary">
+                                    </div>
+
+
+                                    <div class="mt-10">
+                                        <input type="password" name="password" th:field="*{password}"
+                                               placeholder="Пароль"
+                                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Пароль'"
+                                               required class="single-input-secondary">
+                                    </div>
+
+                                    <div class="mt-10">
+                                        <input type="password" name="confirm"
+                                               th:field="*{passwordConfirm}"
+                                               placeholder="Повторите пароль"
+                                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Пароль'"
+                                               required class="single-input-secondary">
+                                    </div>
+
+                                    <div class="mt-10">
+                                        <input type="email" name="email"
+                                               placeholder="Введите email"
+                                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'email'"
+                                               required class="single-input-secondary">
+                                    </div>
+                                    <div class="mt-10">
+                                        <button class="genric-btn success" type="submit">Зарегистрироваться</button>
+                                        <p th:text="${passwordError}"></p>
+                                        <p th:text="${usernameError}"></p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:insert="block/footer :: footer"></footer>
+
+<!-- JS here -->
+
+<!-- All JS Custom Plugins Link Here here -->
+<script src="./js/vendor/modernizr-3.5.0.min.js"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="./js/vendor/jquery-1.12.4.min.js"></script>
+<script src="./js/popper.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<!-- Jquery Mobile Menu -->
+<script src="./js/jquery.slicknav.min.js"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="./js/owl.carousel.min.js"></script>
+<script src="./js/slick.min.js"></script>
+<!-- Date Picker -->
+<script src="./js/gijgo.min.js"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="./js/wow.min.js"></script>
+<script src="./js/animated.headline.js"></script>
+<script src="./js/jquery.magnific-popup.js"></script>
+
+<!-- Breaking New Pluging -->
+<script src="./js/jquery.ticker.js"></script>
+<script src="./js/site.js"></script>
+
+<!-- Scrollup, nice-select, sticky -->
+<script src="./js/jquery.scrollUp.min.js"></script>
+<script src="./js/jquery.nice-select.min.js"></script>
+<script src="./js/jquery.sticky.js"></script>
+
+<!-- contact js -->
+<script src="./js/contact.js"></script>
+<script src="./js/jquery.form.js"></script>
+<script src="./js/jquery.validate.min.js"></script>
+<script src="./js/mail-script.js"></script>
+<script src="./js/jquery.ajaxchimp.min.js"></script>
+
+<!-- Jquery Plugins, main Jquery -->
+<script src="./js/plugins.js"></script>
+<script src="./js/main.js"></script>
 </body>
 </html>

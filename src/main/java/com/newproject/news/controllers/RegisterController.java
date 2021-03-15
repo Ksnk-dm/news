@@ -23,10 +23,21 @@ public class RegisterController {
     }
 
     @PostMapping("/registration")
-    public String addUser(User user, Model model) {
-        userServise.saveUser(user);
+    public String addUser(User user, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "register";
+        }
+        if (!user.getPassword().equals(user.getPasswordConfirm())){
+            model.addAttribute("passwordError", "Пароли не совпадают");
+            return "register";
+        }
+        if (!userServise.saveUser(user)){
+            model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
+            return "register";
+        }
 
         return "redirect:/";
+
     }
 
 }
