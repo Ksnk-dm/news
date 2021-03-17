@@ -45,7 +45,7 @@ public class CommentController {
     public String addCom(@PathVariable(value = "id") Long id, @RequestParam String text, Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         News news = newsService.findNewsById(id);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss ");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm ");
         Comments comments = new Comments( text, dateFormat.format(new Date()), news,user);
         commentService.addCom(comments);
         newsService.updateNews(news);
