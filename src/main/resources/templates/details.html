@@ -143,8 +143,7 @@
                             <!--comments-->
 
                             <div th:each ="comm: ${commentsAll}" class="section-top-border">
-                                <h3  th:text="${comm.date}" class="mb-30"></h3>
-                                <p th:text="${comm.user.userName}"></p>
+                                <p th:text="${comm.user.userName}+' - '+${comm.date}"></p>
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <blockquote th:text="${comm.text}" class="generic-blockquote">
