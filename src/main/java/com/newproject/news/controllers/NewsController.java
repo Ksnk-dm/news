@@ -42,32 +42,32 @@ public class NewsController {
                           @RequestParam String video, @RequestParam(value = "category") long categoryId, Model model, RedirectAttributes redirectAttributes) {
         Category category = categoryService.findCategory(categoryId);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss ");
-        if(img.isEmpty()){
-            img="/img/news/weekly2News4.jpg";
+        if (img.isEmpty()) {
+            img = "/img/news/weekly2News4.jpg";
         }
         News news = new News(title, anonce, img, fullText, dateFormat.format(new Date()), video, category);
-            newsService.addNews(news);
+        newsService.addNews(news);
 
         return "redirect:/";
     }
 
     @PostMapping("/news/upload")
     public ResponseEntity<?> singleFileUpload(@RequestParam("file") MultipartFile file,
-                                           RedirectAttributes redirectAttributes, Model model) {
+                                              RedirectAttributes redirectAttributes, Model model) {
 
         if (file.isEmpty()) {
             return new ResponseEntity<>("Выберите файл для загрузки", HttpStatus.BAD_REQUEST);
         }
         if (file != null && file.getContentType() != null && !file.getContentType().toLowerCase().startsWith("image"))
-            return new ResponseEntity<>("файл не есть изображением",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("файл не есть изображением", HttpStatus.BAD_REQUEST);
 
         try {
             String uuid = UUID.randomUUID().toString();
             byte[] bytes = file.getBytes();
-            Path path = Paths.get(uploadDirectory+"/uploads/", uuid + file.getOriginalFilename());
+            Path path = Paths.get(uploadDirectory + "/uploads/", uuid + file.getOriginalFilename());
             Files.write(path, bytes);
-           String filename = "/uploads/" + uuid + file.getOriginalFilename();
-            return new ResponseEntity<>(filename,HttpStatus.OK);
+            String filename = "/uploads/" + uuid + file.getOriginalFilename();
+            return new ResponseEntity<>(filename, HttpStatus.OK);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -79,17 +79,13 @@ public class NewsController {
 
     @PostMapping("/news/del")
     public ResponseEntity<?> singleFileDel(@RequestParam String img2) {
-        Path path = Paths.get(uploadDirectory+img2);
+        Path path = Paths.get(uploadDirectory + img2);
         try {
             Files.delete(path);
-        } catch (NoSuchFileException ex) {
-            System.out.printf("No such file or directory: %s\n", path);
-        } catch (DirectoryNotEmptyException ex) {
-            System.out.printf("Directory %s is not empty\n", path);
         } catch (IOException ex) {
             System.out.println(ex);
         }
-        return new ResponseEntity<>("ok",HttpStatus.OK);
+        return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
     @GetMapping("/news/addnews")
@@ -129,8 +125,6 @@ public class NewsController {
 
         } catch (NoSuchElementException | NumberFormatException e) {
             return "redirect:/";
-        } catch (ArithmeticException e) {
-
         }
 
 
@@ -140,6 +134,8 @@ public class NewsController {
 
     @PostMapping("/news/{id}/del")
     public String delNews(@PathVariable(value = "id") Long id, Model model) {
+        News news = newsService.findNewsById(id);
+        singleFileDel(news.getImg());
         newsService.deleteNews(id);
         return "redirect:/";
     }
