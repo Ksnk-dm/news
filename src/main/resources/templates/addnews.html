@@ -1,51 +1,234 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" class="no-js" lang="zxx">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title th:text="${title}"></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
+
+    <!-- CSS here -->
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+
+    <link rel="stylesheet" href="/css/ticker-style.css">
+
+    <link rel="stylesheet" href="/css/flaticon.css">
+
+    <link rel="stylesheet" href="/css/slicknav.css">
+    <link rel="stylesheet" href="/css/animate.min.css">
+    <link rel="stylesheet" href="/css/magnific-popup.css">
+    <link rel="stylesheet" href="/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/css/themify-icons.css">
+    <link rel="stylesheet" href="/css/slick.css">
+    <link rel="stylesheet" href="/css/nice-select.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
 </head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
 <body>
 
-<form action="/news/addnews", method="post">
-<input name="title" placeholder="title">
-<input name="anonce" placeholder="anonce">
-<input name="img"  th:value="${message}">
-<input name="fullText" placeholder="fullText">
-<input name="date" placeholder="date">
-    <input name="video" placeholder="video">
-    <select  name="category">
-        <th:block th:each ="category:${category}">
-            <option  th:value="${category.id}" th:text="${category.name}"></option>
-        </th:block>
-    </select>
-    <input type="submit" class="btn btn-primary" value="Add">
-</form>
-<img border="3" height="450" width="450" th:src="${message}" class="img-fluid" >
-<a th:text="${dir}"></a>
-<form method="POST" th:action="upload" enctype="multipart/form-data">
-    <input type="file" name="file" accept="image/*"/><br/><br/>
-    <input type="submit" value="сохранить"/>
-</form>
-<h1 th:text="${dir}">Spring Boot - Upload Status</h1>
-
-<div th:if="${message}">
-    <h2 th:text="${message}"/>
+<!-- Preloader Start -->
+<div id="preloader-active">
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="preloader-inner position-relative">
+            <div class="preloader-circle"></div>
+            <div class="preloader-img pere-text">
+                <img src="/img/logo/logo.png" alt="">
+            </div>
+        </div>
+    </div>
 </div>
-<p th:text="${dir}"></p>
+<!-- Preloader Start -->
+
+<header th:insert="block/header :: header"></header>
+<main>
+    <!-- About US Start -->
+    <div class="about-area">
+        <div class="container">
+
+            <div class="section-top-border">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8">
+                        <h3 class="mb-30">Добавление новой новости:</h3>
+
+                        </div>
+                        </div>
+                        <div class="mt-10">
+                            <img id="imgsrc" border="3" height="450" width="450" class="img-fluid">
+                            <div class="mb-3">
+                                <input class="form-control" type="file" id="formFile">
+                            </div>
+                            <form action="/news/del" id="delimg" method="post">
+                                <input name="img2" id="urlInput2" placeholder="img">
+                                <button class="genric-btn danger circle" type="submit" id="delbutton">Удалить</button>
+                            </form>
+
+                        </div>
+                        <form action="/news/addnews" , method="post">
+                            <div >
+                                <b>Укажите категорию:</b>
+                                <p><select name="category">
+                                    <th:block th:each="category:${category}">
+                                        <option th:value="${category.id}" th:text="${category.name}"></option>
+                                    </th:block>
+                                </select></p>
+                            </div>
+
+            </div>
 
 
-<form method="POST" th:action="del">
-    <input type="submit" value="удалить"/>
-    <input name="img" th:value="${message}" placeholder="img">
-</form>
+                            <div class="mt-10">
+                              <label for="title">Введите заголовок</label>
+                                <input id="title" type="text" name="title" placeholder="Заголовок"
+                                       onfocus="this.placeholder = ''" onblur="this.placeholder = 'Заголовок'" required
+                                       class="single-input">
+                            </div>
+                            <div class="mt-10">
+                                <label>Введите анонс</label>
+                                <input type="text" name="anonce" placeholder="Анонс"
+                                       onfocus="this.placeholder = ''" onblur="this.placeholder = 'Анонс'" required
+                                       class="single-input">
+                            </div>
+                            <input name="img" id="urlInput" placeholder="img">
+                            <div class="mt-10">
+                                <label>Введите полное описание, возможно использовать HTML</label>
+                                <textarea type="text" name="fullText" placeholder="Полное описание"
+                                          onfocus="this.placeholder = ''" onblur="this.placeholder = 'Полное описание'"
+                                          required
+                                          class="single-input"></textarea>
+                            </div>
+                            <div class="mt-10">
+                                <label>Введите ссылку на видео</label>
+                                <input type="text" name="video" placeholder="Видео ссылка"
+                                       onfocus="this.placeholder = ''" onblur="this.placeholder = 'Видео'" required
+                                       class="single-input">
+                            </div>
 
-<button type="button" id="add_news" class="btn btn-default navbar-btn">Add Contact</button>
+
+
+                           <div class="mt-10">
+                              <p></p> <input type="submit" class="btn btn-primary" value="Сохранить">
+                            </div>
+
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</main>
+
+
+<footer th:insert="block/footer :: footer"></footer>
+
+<!-- JS here -->
+
+<!-- All JS Custom Plugins Link Here here -->
+<script src="/js/vendor/modernizr-3.5.0.min.js"></script>
+
+<!-- Jquery, Popper, Bootstrap -->
+<script src="/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<!-- Jquery Mobile Menu -->
+<script src="/js/jquery.slicknav.min.js"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/slick.min.js"></script>
+<!-- Date Picker -->
+<script src="/js/gijgo.min.js"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="/js/wow.min.js"></script>
+<script src="/js/animated.headline.js"></script>
+<script src="/js/jquery.magnific-popup.js"></script>
+
+<!-- Breaking New Pluging -->
+<script src="/js/jquery.ticker.js"></script>
+<script src="/js/site.js"></script>
+
+<!-- Scrollup, nice-select, sticky -->
+<script src="/js/jquery.scrollUp.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/jquery.sticky.js"></script>
+
+<!-- contact js -->
+<script src="/js/contact.js"></script>
+<script src="/js/jquery.form.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/mail-script.js"></script>
+<script src="/js/jquery.ajaxchimp.min.js"></script>
+
+<!-- Jquery Plugins, main Jquery -->
+<script src="/js/plugins.js"></script>
+<script src="/js/main.js"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.4.0.min.js"
+        integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
 <script>
+    $("#urlInput2").css("display", "none")
+    $("#urlInput").css("display", "none")
+    $("#delbutton").hide();
+
+    $("#formFile").change(function () {
+        if (window.FormData === undefined) {
+            alert('В вашем браузере FormData не поддерживается')
+        } else {
+            var formData = new FormData();
+            formData.append('file', $("#formFile")[0].files[0]);
+
+            $.ajax({
+                type: "POST",
+                url: '/news/upload',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                dataType: 'text',
+                success: function (result, data) {
+                    $('#urlInput').val(result);
+                    $('#urlInput2').val(result);
+                    $('#imgsrc').attr('src', result);
+                    $('#filetext').val(result);
+                    $("#formFile").hide();
+                    $("#delbutton").show()
+
+
+                },
+
+            });
+        }
+    });
+
+    $('#delimg').submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: "/news/del",
+            type: "POST",
+            data: $('#delimg').serialize(),
+            success: function (response) {
+                $('#imgsrc').attr('src', "");
+                $("#delbutton").hide();
+                $("#formFile").show();
+
+
+            }
+        });
+    });
+
 
 </script>
+
+
 </body>
 </html>

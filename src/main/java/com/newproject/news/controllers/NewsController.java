@@ -11,12 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -36,7 +35,7 @@ public class NewsController {
     @Autowired
     CommentService commentService;
 
-    public static String uploadDirectory = System.getProperty("user.dir") + "/uploads/";
+    public static String uploadDirectory = System.getProperty("user.dir");
 
     @PostMapping("/news/addnews")
     public String addNews(@RequestParam String title, @RequestParam String anonce, @RequestParam String img, @RequestParam String fullText,
@@ -53,37 +52,34 @@ public class NewsController {
     }
 
     @PostMapping("/news/upload")
-    public String singleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes, Model model) {
+    public ResponseEntity<?> singleFileUpload(@RequestParam("file") MultipartFile file,
+                                           RedirectAttributes redirectAttributes, Model model) {
+
         if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
-            return "redirect:/addnews";
+            return new ResponseEntity<>("Выберите файл для загрузки", HttpStatus.BAD_REQUEST);
         }
         if (file != null && file.getContentType() != null && !file.getContentType().toLowerCase().startsWith("image"))
-            throw new MultipartException("not img");
+            return new ResponseEntity<>("файл не есть изображением",HttpStatus.BAD_REQUEST);
 
         try {
             String uuid = UUID.randomUUID().toString();
             byte[] bytes = file.getBytes();
-            Path path = Paths.get(uploadDirectory, uuid + file.getOriginalFilename());
+            Path path = Paths.get(uploadDirectory+"/uploads/", uuid + file.getOriginalFilename());
             Files.write(path, bytes);
-            String filename = "uploads/" + uuid + file.getOriginalFilename();
-            redirectAttributes.addFlashAttribute("message",
-                    filename);
-
+           String filename = "/uploads/" + uuid + file.getOriginalFilename();
+            return new ResponseEntity<>(filename,HttpStatus.OK);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return "redirect:/news/addnews";
+        return null;
     }
 
 
     @PostMapping("/news/del")
-    public String singleFileDel(@RequestParam String img,
-                                RedirectAttributes redirectAttributes) {
-        Path path = Paths.get(img);
+    public ResponseEntity<?> singleFileDel(@RequestParam String img2) {
+        Path path = Paths.get(uploadDirectory+img2);
         try {
             Files.delete(path);
         } catch (NoSuchFileException ex) {
@@ -93,7 +89,7 @@ public class NewsController {
         } catch (IOException ex) {
             System.out.println(ex);
         }
-        return "addnews";
+        return new ResponseEntity<>("ok",HttpStatus.OK);
     }
 
     @GetMapping("/news/addnews")
@@ -128,6 +124,7 @@ public class NewsController {
             model.addAttribute("category", categoryService.findCategory());
             SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd MMM yyyy");
             model.addAttribute("date", dateFormat.format(new Date()));
+            model.addAttribute("title", newsPage.getTitle());
 
 
         } catch (NoSuchElementException | NumberFormatException e) {
