@@ -1,0 +1,5 @@
+site:
+  indexSetting:
+    roleNewuser: 1
+    mainCategory: Главное
+    blockCategory: Украина

@@ -1,19 +1,22 @@
 package com.newproject.news.entity;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
 public class Comments {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private Long id;
+    @GeneratedValue
+    private Long id ;
     private String text;
     private String date;
     @ManyToOne
     @JoinColumn(name="news_id")
     private News news;
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name="user_id")
     private User user;
 
     public Comments() {

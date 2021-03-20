@@ -72,12 +72,20 @@
                    <div class="row">
                         <div th:each="el:${news}" class="col-lg-8">
                             <!-- Trending Tittle -->
-                            <div class="about-right mb-90">
-                                <div class="row gallery-item">
-                                    <div class="col-md-4">
+                            <div  class="about-right mb-90">
+                                <div th:if="${el.url==null}" class="row gallery-item">
+                                    <div  class="col-md-4">
                                         <a th:href="${el.img}" class="img-pop-up">
                                             <div class="single-gallery-image" th:style="'background: url('+${el.img}+');'"></div>
                                         </a>
+
+                                    </div>
+                                </div>
+                                <div th:if="${el.img==null}" class="row gallery-item">
+                                    <div  class="col-md-4">
+                                <a  th:href="${el.url}" class="img-pop-up">
+                                    <div class="single-gallery-image" th:style="'background: url('+${el.url}+');'"></div>
+                                </a>
                                     </div>
                                 </div>
 
@@ -146,14 +154,15 @@
                             <!--comments-->
 
                             <div th:each ="comm: ${commentsAll}" class="section-top-border">
-                                <p th:text="${comm.user.userName}+' - '+${comm.date}"></p>
+                                <a class="genric-btn link-border radius" th:href="'/user/'+${comm.user.userName}" th:text="${comm.user.userName}"></a><b th:text="${comm.date}"></b>
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <blockquote th:text="${comm.text}" class="generic-blockquote">
                                         </blockquote>
                                     </div>
-                                    <div sec:authorize="hasRole('ROLE_USER')">
-                                    <form th:action="'/news/comments/'+${comm.id}+'/del'" method="post">
+                                    <div sec:authorize="isAuthenticated()">
+
+                                    <form  th:if="${#authentication.getName()==comm.user.userName or #authorization.expression('hasAuthority(''ROLE_ADMIN'')')}" th:action="'/news/comments/'+${comm.id}+'/del'" method="post">
                                         <input type="submit" class="btn btn-primary" value="del">
                                     </form>
                                     </div>

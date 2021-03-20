@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>админка</title>
+    <!-- CSS here -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/ticker-style.css">
+    <link rel="stylesheet" href="/css/flaticon.css">
+    <link rel="stylesheet" href="/css/slicknav.css">
+    <link rel="stylesheet" href="/css/animate.min.css">
+    <link rel="stylesheet" href="/css/magnific-popup.css">
+    <link rel="stylesheet" href="/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/css/themify-icons.css">
+    <link rel="stylesheet" href="/css/slick.css">
+    <link rel="stylesheet" href="/css/nice-select.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<form method="post" action="/adminpage/addrole">
+    <input type="submit" value="addrole"></input>
+</form>
+
+<li><button type="button" id="delete_user" class="btn btn-default navbar-btn">Delete user</button></li>
+<div  class="section-top-border">
+    <h3 class="mb-30">Пользователи</h3>
+    <div class="progress-table-wrap">
+        <div   class="progress-table">
+            <div class="table-head">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Имя пользователя</th>
+                        <th scope="col">Роль</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Комментарии</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="el:${users}">
+                        <td><input type="checkbox" name="toDelete[]" th:value="${el.id}" th:id="'checkbox_'+${el.id}">
+                        </td>
+                        <td><a class="text-primary" th:href="'/user/'+${el.userName}" th:text="${el.userName}"></a></td>
+                        <td><a th:text="${el.roles}"></a></td>
+                        <td><a th:text="${el.email}"></a></td>
+                        <td><a th:text="${el.comments.size()}"></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<div th:each="role:${role}">
+    <p th:text="${role.name}"></p>
+    <form method="post" th:action="'/adminpage/delrole/'+${role.id}">
+        <input type="submit" value="delrole">
+    </form>
+</div>
+<script>
+    $('#delete_user').click(function () {
+        var data = {'toDelete[]': []};
+        $(":checked").each(function () {
+            data['toDelete[]'].push($(this).val());
+        });
+        $.post("/adminpage/deluser", data, function (data, status) {
+            window.location.reload();
+        });
+    });</script>
+</body>
+</html>

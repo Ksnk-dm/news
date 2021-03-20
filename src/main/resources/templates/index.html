@@ -58,7 +58,14 @@
                     <div class="col-lg-8">
                         <!-- Trending Top -->
                         <div th:each="top:${topNews}" class="trending-top mb-30">
-                            <div class="trend-top-img">
+                            <div th:if="${top.img==null}" class="trend-top-img">
+                                <img th:src="${top.url}" alt="">
+                                <div class="trend-top-cap">
+                                    <span th:text="${top.category.name}"></span>
+                                    <h2><a th:href="'/news/'+${top.id}" th:text="${top.title}"></a></h2>
+                                </div>
+                            </div>
+                            <div th:if="${top.url==null}" class="trend-top-img">
                                 <img th:src="${top.img}" alt="">
                                 <div class="trend-top-cap">
                                     <span th:text="${top.category.name}"></span>
@@ -73,7 +80,10 @@
                             <div class="row">
                                 <div th:each="all2:${allNews2}" class="col-lg-4">
                                     <div class="single-bottom mb-35">
-                                        <div class="trend-bottom-img mb-30">
+                                        <div th:if="${all2.img==null}" class="trend-bottom-img mb-30">
+                                            <img th:src="${all2.url}" alt="">
+                                        </div>
+                                        <div th:if="${all2.url==null}" class="trend-bottom-img mb-30">
                                             <img th:src="${all2.img}" alt="">
                                         </div>
                                         <div class="trend-bottom-cap">

@@ -38,15 +38,22 @@ public class NewsController {
     public static String uploadDirectory = System.getProperty("user.dir");
 
     @PostMapping("/news/addnews")
-    public String addNews(@RequestParam String title, @RequestParam String anonce, @RequestParam String img, @RequestParam String fullText,
+    public String addNews(@RequestParam String title, @RequestParam String anonce, @RequestParam String img, @RequestParam String imgUrl, @RequestParam String fullText,
                           @RequestParam String video, @RequestParam(value = "category") long categoryId, Model model, RedirectAttributes redirectAttributes) {
         Category category = categoryService.findCategory(categoryId);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss ");
-        if (img.isEmpty()) {
+        if (img.isEmpty()&&imgUrl.isEmpty()) {
             img = "/img/news/weekly2News4.jpg";
         }
-        News news = new News(title, anonce, img, fullText, dateFormat.format(new Date()), video, category);
-        newsService.addNews(news);
+            if (imgUrl.isEmpty()) {
+                News news = new News(title, anonce, img, fullText, dateFormat.format(new Date()), video, category);
+                newsService.addNews(news);
+            } else {
+                News news = new News(title, anonce, fullText, dateFormat.format(new Date()), video, category, imgUrl);
+                newsService.addNews(news);
+            }
+
+
 
         return "redirect:/";
     }
@@ -78,12 +85,12 @@ public class NewsController {
 
 
     @PostMapping("/news/del")
-    public ResponseEntity<?> singleFileDel(@RequestParam String img2) {
+    public ResponseEntity<?> singleFileDel(String img2) {
         Path path = Paths.get(uploadDirectory + img2);
         try {
             Files.delete(path);
-        } catch (IOException ex) {
-            System.out.println(ex);
+        } catch (IOException | InvalidPathException e) {
+            return new ResponseEntity<>("bad", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }

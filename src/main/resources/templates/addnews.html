@@ -70,6 +70,11 @@
 
                         </div>
                         <form action="/news/addnews" , method="post">
+                            <div class="mt-10">
+                                <label for="title">Ссылка на изображение внешний ресурс</label>
+                                <input  type="text" name="imgUrl" placeholder="изображение внешний ресурс">
+                            </div>
+                            <input name="img" id="urlInput" placeholder="img">
                             <div >
                                 <b>Укажите категорию:</b>
                                 <p><select name="category">
@@ -94,7 +99,7 @@
                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Анонс'" required
                                        class="single-input">
                             </div>
-                            <input name="img" id="urlInput" placeholder="img">
+
                             <div class="mt-10">
                                 <label>Введите полное описание, возможно использовать HTML</label>
                                 <textarea type="text" name="fullText" placeholder="Полное описание"

@@ -1,0 +1,43 @@
+<!DOCTYPE  html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User setting</title>
+</head>
+<body>
+<div th:each="us:${user}">
+    <p th:text="${us.userName}"></p>
+    <p th:each="role:${us.getRoles()}" th:text="${role.name}"></p>
+    <form  id="addroleform" th:action="'/user/'+${us.userName}+'/addrol'" method="post" >
+    <p><select name="roles">
+        <th:block th:each="el:${role}">
+            <option th:value="${el.id}" th:text="${el.name}"></option>
+        </th:block>
+    </select></p>
+        <button  type="submit" id="addButton" >Добавить роль</button>
+    </form>
+    <form method="post" th:action="'/user/'+${us.userName}+'/delrole'">
+        <b>Укажите роль:</b>
+        <p><select name="rolesName">
+            <th:block th:each="el:${us.getRoles()}">
+                <option th:value="${el.id}" th:text="${el.name}"></option>
+            </th:block>
+        </select></p>
+        <input type="submit" value="удалить роль">
+    </form>
+    <p th:text="${us.password}"></p>
+<a th:text="${#authentication.name}"></a>
+    <form  th:if="${#authentication.getName()==us.userName or #authorization.expression('hasAuthority(''ROLE_ADMIN'')')}" th:action="'/user/'+${us.id}+'/changepass'" method="post">
+        <input type="text" name="pass">
+        <input type="submit" value="update pass">
+    </form>
+
+    <p th:text="${us.email}"></p>
+    <form th:action="'/user/'+${us.id}+'/changeemail'" method="post">
+        <input type="text" name="email">
+        <input type="submit" value="update">
+    </form>
+</div>
+</body>
+</html>

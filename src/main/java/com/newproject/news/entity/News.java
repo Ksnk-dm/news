@@ -10,7 +10,7 @@ import java.util.Objects;
 @Entity
 public class News {
     @Id
-    @GeneratedValue()
+    @GeneratedValue
     @JsonIgnore
     private Long id;
     private String title;
@@ -25,15 +25,22 @@ public class News {
     @JsonIgnore
     private Category category;
     @JsonIgnore
-    @OneToMany(mappedBy="news", cascade=CascadeType.REMOVE, orphanRemoval=true)
+    @OneToMany(cascade = CascadeType.ALL,mappedBy="news", orphanRemoval=true)
     private List<Comments> comments = new ArrayList<Comments>();
+    private String url;
 
 
     public News() {
     }
 
-    public News(String title) {
+    public News(String title, String anonce, String fullText, String date, String video, Category category, String url) {
         this.title = title;
+        this.anonce = anonce;
+        this.fullText = fullText;
+        this.date = date;
+        this.video = video;
+        this.category = category;
+        this.url = url;
     }
 
     public News(String title, String anonce, String img, String fullText, String date, String video, Category category) {
@@ -46,6 +53,8 @@ public class News {
         this.category = category;
     }
 
+
+
     public News(String title, String anonce, String img, String fullText, String date, Category category) {
         this.title = title;
         this.anonce = anonce;
@@ -55,13 +64,9 @@ public class News {
         this.category = category;
     }
 
-    public News(String title, String anonce, String img, String fullText, String date) {
-        this.title = title;
-        this.anonce = anonce;
-        this.img = img;
-        this.fullText = fullText;
-        this.date = date;
-    }
+
+
+
 
 
 
@@ -137,7 +142,11 @@ public class News {
         this.video = video;
     }
 
+    public String getUrl() {
+        return url;
+    }
 
-
-
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

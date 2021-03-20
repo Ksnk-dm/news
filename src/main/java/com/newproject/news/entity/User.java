@@ -1,6 +1,7 @@
 package com.newproject.news.entity;
 
 
+import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,7 +15,7 @@ import java.util.Set;
 @Table(name = "t_user")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String userName;
     private String password;
@@ -23,7 +24,7 @@ public class User implements UserDetails {
     private String email;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL,mappedBy="user", orphanRemoval=true)
     private List<Comments> comments;
     @Column(name = "reset_password_token")
     private String resetPasswordToken;
@@ -152,5 +153,13 @@ public class User implements UserDetails {
                 ", email='" + email + '\'' +
                 ", roles=" + roles +
                 '}';
+    }
+
+    public List<Comments> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comments> comments) {
+        this.comments = comments;
     }
 }

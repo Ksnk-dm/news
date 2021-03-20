@@ -6,6 +6,8 @@ import com.newproject.news.repository.NewsRepository;
 import com.newproject.news.services.CategoryService;
 import com.newproject.news.services.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,11 +31,17 @@ public class IndexController {
     @Autowired
     private NewsRepository newsRepository;
 
+    @Value("${site.indexSetting.mainCategory}")
+    private String mainCategory;
+    @Value("${site.indexSetting.blockCategory}")
+    private String blockCategory;
+
     @GetMapping("/")
     public String viewIndexPage(Model model, HttpServletRequest request) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd MMM yyyy");
-        List<News> oneNews = newsService.findByCategory("Главное");
-        List<News> category = newsService.findByCategory("Украина");
+        System.out.println("!!!!!!!"+mainCategory+"    "+ blockCategory);
+        List<News> oneNews = newsService.findByCategory(mainCategory);
+        List<News> category = newsService.findByCategory(blockCategory);
         Pageable sortedById = PageRequest.of(0, 4, Sort.by(Sort.Direction.DESC, "id"));
         Pageable sortedById2 = PageRequest.of(1, 3, Sort.by(Sort.Direction.DESC, "id"));
         List<Category> categories = categoryService.findCategory();
@@ -49,7 +57,6 @@ public class IndexController {
         model.addAttribute("category", categories);
         model.addAttribute("category2",category);
         model.addAttribute("date", dateFormat.format(new Date()));
-
         return "index";
     }
 
