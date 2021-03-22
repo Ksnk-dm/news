@@ -36,7 +36,7 @@
                     <tr>
                         <th scope="col"></th>
                         <th scope="col">Название роли</th>
-                        <th scope="col">Кол-во пользователей</th>
+
 
                     </tr>
                     </thead>
@@ -44,8 +44,8 @@
                     <tr th:each="el:${role}">
                         <td><input type="checkbox" name="toDeleteRole[]" th:value="${el.id}" th:id="'checkbox_'+${el.id}">
                         </td>
-                        <td><a class="text-primary" th:href="'/user/'+${el.name}" th:text="${el.name}"></a></td>
-                        <td><a th:text="${el.users.size()}"></a></td>
+                        <td><a class="text-primary"  th:text="${el.name}"></a></td>
+
 
                     </tr>
                     </tbody>
@@ -92,12 +92,6 @@
 </div>
 
 
-<div th:each="role:${role}">
-    <p th:text="${role.name}"></p>
-    <form method="post" th:action="'/adminpage/delrole/'+${role.id}">
-        <input type="submit" value="delrole">
-    </form>
-</div>
 <script>
     $('#delete_user').click(function () {
         var data = {'toDelete[]': []};
