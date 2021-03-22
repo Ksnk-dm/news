@@ -64,12 +64,6 @@ public class News {
         this.category = category;
     }
 
-
-
-
-
-
-
     public Long getId() {
         return id;
     }
@@ -148,5 +142,18 @@ public class News {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        News news = (News) o;
+        return Objects.equals(id, news.id) && Objects.equals(title, news.title) && Objects.equals(anonce, news.anonce) && Objects.equals(img, news.img) && Objects.equals(fullText, news.fullText) && Objects.equals(date, news.date) && Objects.equals(video, news.video) && Objects.equals(category, news.category) && Objects.equals(comments, news.comments) && Objects.equals(url, news.url);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, anonce, img, fullText, date, video, category, comments, url);
     }
 }
