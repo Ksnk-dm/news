@@ -32,23 +32,23 @@
 <div class="row">
     <div class="col-md-12 text-center">
         <!-- customers pagination -->
-        <nav aria-label="Pagination" th:if="${commentsAll.totalPages gt 0}">
-            <ul class="pagination justify-content-center font-weight-bold">
+        <nav class="blog-pagination justify-content-center d-flex" aria-label="Pagination" th:if="${commentsAll.totalPages gt 0}">
+            <ul class="pagination">
                 <li class="page-item" th:classappend="${commentsAll.number eq 0} ? 'disabled'">
                     <a class="page-link"
-                       th:href="@{'/news/'+${newsdetail.id}+'?page={id}'(id=${commentsAll.number lt 2 ? 1 : commentsAll.number})}"
+                       th:href="@{/news/allnews/?page={id}(id=${news.number lt 2 ? 1 : news.number})}"
                        aria-label="Previous" title="Текущая страница" data-toggle="tooltip">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
                 <li class="page-item" th:classappend="${i eq commentsAll.number + 1} ? 'active'"
                     th:each="i : ${#numbers.sequence( 1, commentsAll.totalPages, 1)}">
-                    <a class="page-link" th:href="@{'/news/'+${newsdetail.id}+'?page={id}'(id=${i})}" th:text="${i}"
+                    <a class="page-link" th:href="@{/news/allnews/?page={id}(id=${i})}" th:text="${i}"
                        th:title="${'Страница '+ i}" data-toggle="tooltip"></a>
                 </li>
-                <li class="page-item" th:classappend="${commentsAll.number + 1 eq commentsAll.totalPages} ? 'disabled'">
+                <li class="page-item" th:classappend="${commentsAll.number + 1 eq news.totalPages} ? 'disabled'">
                     <a class="page-link"
-                       th:href="@{'/news/'+${newsdetail.id}+'?page={id}'(id=${commentsAll.number + 2})}"
+                       th:href="@{/news/allnews/?page={id}(id=${commentsAll.number + 2})}"
                        aria-label="Next" title="Следующая страница" data-toggle="tooltip">
                         <span aria-hidden="true">&raquo;</span>
                     </a>

@@ -1,10 +1,8 @@
 package com.newproject.news.entity;
 
 
-import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
@@ -28,6 +26,7 @@ public class User implements UserDetails {
     private List<Comments> comments;
     @Column(name = "reset_password_token")
     private String resetPasswordToken;
+    private Boolean sendEmail;
 
     public User() {
     }
@@ -130,6 +129,22 @@ public class User implements UserDetails {
     }
 
 
+    public List<Comments> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comments> comments) {
+        this.comments = comments;
+    }
+
+    public Boolean getSendEmail() {
+        return sendEmail;
+    }
+
+    public void setSendEmail(Boolean sendEmail) {
+        this.sendEmail = sendEmail;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -153,13 +168,5 @@ public class User implements UserDetails {
                 ", email='" + email + '\'' +
                 ", roles=" + roles +
                 '}';
-    }
-
-    public List<Comments> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comments> comments) {
-        this.comments = comments;
     }
 }

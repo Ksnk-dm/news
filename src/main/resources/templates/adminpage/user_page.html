@@ -9,7 +9,7 @@
 <div th:each="us:${user}">
     <p th:text="${us.userName}"></p>
     <p th:each="role:${us.getRoles()}" th:text="${role.name}"></p>
-    <form  id="addroleform" th:action="'/user/'+${us.userName}+'/addrol'" method="post" >
+    <form sec:authorize="hasRole('ROLE_ADMIN')" id="addroleform" th:action="'/user/'+${us.userName}+'/addrol'" method="post" >
     <p><select name="roles">
         <th:block th:each="el:${role}">
             <option th:value="${el.id}" th:text="${el.name}"></option>
@@ -17,7 +17,7 @@
     </select></p>
         <button  type="submit" id="addButton" >Добавить роль</button>
     </form>
-    <form method="post" th:action="'/user/'+${us.userName}+'/delrole'">
+    <form sec:authorize="hasRole('ROLE_ADMIN')" method="post" th:action="'/user/'+${us.userName}+'/delrole'">
         <b>Укажите роль:</b>
         <p><select name="rolesName">
             <th:block th:each="el:${us.getRoles()}">
@@ -28,13 +28,13 @@
     </form>
     <p th:text="${us.password}"></p>
 <a th:text="${#authentication.name}"></a>
-    <form  th:if="${#authentication.getName()==us.userName or #authorization.expression('hasAuthority(''ROLE_ADMIN'')')}" th:action="'/user/'+${us.id}+'/changepass'" method="post">
+    <form th:if="${#authentication.getName()==us.userName or #authorization.expression('hasAuthority(''ROLE_ADMIN'')')}" th:action="'/user/'+${us.id}+'/changepass'" method="post">
         <input type="text" name="pass">
         <input type="submit" value="update pass">
     </form>
 
     <p th:text="${us.email}"></p>
-    <form th:action="'/user/'+${us.id}+'/changeemail'" method="post">
+    <form th:if="${#authentication.getName()==us.userName or #authorization.expression('hasAuthority(''ROLE_ADMIN'')')}" th:action="'/user/'+${us.id}+'/changeemail'" method="post">
         <input type="text" name="email">
         <input type="submit" value="update">
     </form>

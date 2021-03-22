@@ -1,10 +1,10 @@
 package com.newproject.news.entity;
 
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Category {
@@ -45,5 +45,27 @@ public class Category {
 
     public void setNews(List<News> news) {
         this.news = news;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return id == category.id && Objects.equals(name, category.name) && Objects.equals(news, category.news);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, news);
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", news=" + news +
+                '}';
     }
 }

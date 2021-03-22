@@ -1,9 +1,7 @@
 package com.newproject.news.controllers;
 
 import com.newproject.news.entity.Category;
-import com.newproject.news.entity.News;
 import com.newproject.news.services.CategoryService;
-import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

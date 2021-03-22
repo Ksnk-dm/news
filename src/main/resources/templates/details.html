@@ -1,310 +1,304 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" class="no-js" lang="zxx">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-         <title th:text="${title}"> </title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title th:text="${title}"></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="manifest" href="site.webmanifest">
-		<link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
 
-		<!-- CSS here -->
-            <link rel="stylesheet" href="/css/bootstrap.min.css">
-            <link rel="stylesheet" href="/css/owl.carousel.min.css">
+    <!-- CSS here -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
 
-            <link rel="stylesheet" href="/css/ticker-style.css">
+    <link rel="stylesheet" href="/css/ticker-style.css">
 
-            <link rel="stylesheet" href="/css/flaticon.css">
+    <link rel="stylesheet" href="/css/flaticon.css">
 
-            <link rel="stylesheet" href="/css/slicknav.css">
-            <link rel="stylesheet" href="/css/animate.min.css">
-            <link rel="stylesheet" href="/css/magnific-popup.css">
-            <link rel="stylesheet" href="/css/fontawesome-all.min.css">
-            <link rel="stylesheet" href="/css/themify-icons.css">
-            <link rel="stylesheet" href="/css/slick.css">
-            <link rel="stylesheet" href="/css/nice-select.css">
-            <link rel="stylesheet" href="/css/style.css">
-            <link rel="stylesheet" href="/css/responsive.css">
-   </head>
+    <link rel="stylesheet" href="/css/slicknav.css">
+    <link rel="stylesheet" href="/css/animate.min.css">
+    <link rel="stylesheet" href="/css/magnific-popup.css">
+    <link rel="stylesheet" href="/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/css/themify-icons.css">
+    <link rel="stylesheet" href="/css/slick.css">
+    <link rel="stylesheet" href="/css/nice-select.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
 
-   <body>
-       
-    <!-- Preloader Start -->
-    <div id="preloader-active">
-        <div class="preloader d-flex align-items-center justify-content-center">
-            <div class="preloader-inner position-relative">
-                <div class="preloader-circle"></div>
-                <div class="preloader-img pere-text">
-                    <img src="/img/logo/logo.png" alt="">
-                </div>
+<body>
+
+<!-- Preloader Start -->
+<div id="preloader-active">
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="preloader-inner position-relative">
+            <div class="preloader-circle"></div>
+            <div class="preloader-img pere-text">
+                <img src="/img/logo/logo.png" alt="">
             </div>
         </div>
     </div>
-    <!-- Preloader Start -->
+</div>
+<!-- Preloader Start -->
 
-    <header th:insert="block/header :: header"></header>
+<header th:insert="block/header :: header"></header>
 
-    <main>
-        <!-- About US Start -->
-        <div class="about-area">
-            <div class="container">
-                    <!-- Hot Aimated News Tittle-->
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="trending-tittle">
-                                <strong>Trending now</strong>
-                                <!-- <p>Rem ipsum dolor sit amet, consectetur adipisicing elit.</p> -->
-                                <div class="trending-animated">
-                                    <ul id="js-news" class="js-hidden">
-                                        <li class="news-item">Bangladesh dolor sit amet, consectetur adipisicing elit.</li>
-                                        <li class="news-item">Spondon IT sit amet, consectetur.......</li>
-                                        <li class="news-item">Rem ipsum dolor sit amet, consectetur adipisicing elit.</li>
-                                    </ul>
-                                </div>
+<main>
+    <!-- About US Start -->
+    <div class="about-area">
+        <div class="container">
+            <!-- Hot Aimated News Tittle-->
+            <div class="row">
+                <div class="col-lg-12">
+                </div>
+            </div>
 
+            <div class="row">
+                <div th:each="el:${news}" class="col-lg-8">
+                    <!-- Trending Tittle -->
+                    <div class="about-right mb-90">
+                        <div th:if="${el.url==null or el.url==''}" class="row gallery-item">
+                            <div class="col-md-4">
+                                <a th:href="${el.img}" class="img-pop-up">
+                                    <div class="single-gallery-image"
+                                         th:style="'background: url('+${el.img}+');'"></div>
+                                </a>
+
+                            </div>
+                        </div>
+                        <div th:if="${el.img==null or el.img==''}" class="row gallery-item">
+                            <div class="col-md-4">
+                                <a th:href="${el.url}" class="img-pop-up">
+                                    <div class="single-gallery-image"
+                                         th:style="'background: url('+${el.url}+');'"></div>
+                                </a>
+                            </div>
+                        </div>
+
+
+                        <div class="section-tittle mb-30 pt-30">
+                            <h3 th:text="${el.title}"></h3>
+                        </div>
+                        <div class="about-prea">
+                            <div th:if="${el.video!=null and el.video!=''}">
+                            <p>
+                                <iframe  width="560" height="315"
+                                        th:src="${el.video}" title="YouTube video player"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen></iframe>
+                            </p>
+                            </div>
+                            <p th:text="${el.anonce}" class="about-pera1 mb-25"></p>
+                            <p th:text="${el.fullText}" class="about-pera1 mb-25"></p>
+                        </div>
+
+
+                        <!-- social netw -->
+
+                    </div>
+
+
+                    <div sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_REDACTOR')">
+                        <h3 class="mb-30">Администрирование:</h3>
+                        <a class="btn btn-primary" th:href="'/news/'+${el.id}+'/edit'">Редактировать</a>
+                        <form class="navbar-form navbar-left" th:action="'/news/'+${el.id}+'/del'" method="post">
+                            <button class="btn btn-success" type="submit">Удалить</button>
+                        </form>
+
+                    </div>
+
+
+                    <!-- From -->
+                    <div sec:authorize="isAnonymous()">
+                        Пройдите <a class="text-primary" href="/login">авторизацию</a> для добавления комментариев
+                    </div>
+                    <div sec:authorize="isAuthenticated()">
+                        <div class="row">
+                            <div th:each="el:${news}" class="col-lg-8">
+                                <form th:action="'/news/'+${el.id}+'/addcom'" method="post" novalidate="novalidate">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <textarea class="form-control w-100 error" name="text" id="message"
+                                                          cols="30" rows="9" onfocus="this.placeholder = ''"
+                                                          onblur="this.placeholder = 'Enter Message'"
+                                                          placeholder="Enter Message"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mt-3">
+                                        <button type="submit">Send</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
 
-                   <div class="row">
-                        <div th:each="el:${news}" class="col-lg-8">
-                            <!-- Trending Tittle -->
-                            <div  class="about-right mb-90">
-                                <div th:if="${el.url==null}" class="row gallery-item">
-                                    <div  class="col-md-4">
-                                        <a th:href="${el.img}" class="img-pop-up">
-                                            <div class="single-gallery-image" th:style="'background: url('+${el.img}+');'"></div>
-                                        </a>
 
-                                    </div>
-                                </div>
-                                <div th:if="${el.img==null}" class="row gallery-item">
-                                    <div  class="col-md-4">
-                                <a  th:href="${el.url}" class="img-pop-up">
-                                    <div class="single-gallery-image" th:style="'background: url('+${el.url}+');'"></div>
-                                </a>
-                                    </div>
-                                </div>
+                    <!--comments-->
 
-
-                                <div class="section-tittle mb-30 pt-30">
-                                    <h3 th:text="${el.title}"></h3>
-                                </div>
-                                <div class="about-prea">
-                                    <p th:text="${el.anonce}" class="about-pera1 mb-25"></p>
-                                    <p th:text="${el.fullText}" class="about-pera1 mb-25"></p>
-                                </div>
-
-
-
-
-                                <!-- social netw -->
-                                <div class="social-share pt-30">
-                                    <div class="section-tittle">
-                                        <h3 class="mr-20">Share:</h3>
-                                        <ul>
-                                            <li><a href="#"><img src="/img/news/icon-ins.png" alt=""></a></li>
-                                            <li><a href="#"><img src="/img/news/icon-fb.png" alt=""></a></li>
-                                            <li><a href="#"><img src="/img/news/icon-tw.png" alt=""></a></li>
-                                            <li><a href="#"><img src="/img/news/icon-yo.png" alt=""></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        <div sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_REDACTOR')">
-                                <h3 class="mb-30">Администрирование:</h3>
-                            <a class="btn btn-primary" th:href="'/news/'+${el.id}+'/edit'">Редактировать</a>
-                            <form class="navbar-form navbar-left" th:action="'/news/'+${el.id}+'/del'"  method="post" >
-                                <button class="btn btn-success" type="submit">Удалить</button>
-                            </form>
-
-                        </div>
-
-
-
-                            <!-- From -->
-                            <div sec:authorize="isAnonymous()">
-                                Пройдите <a class="text-primary" href="/login" >авторизацию</a> для добавления комментариев
+                    <div th:each="comm: ${commentsAll}" class="section-top-border">
+                        <a class="genric-btn link-border radius" th:href="'/user/'+${comm.user.userName}"
+                           th:text="${comm.user.userName}"></a><b th:text="${comm.date}"></b>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <blockquote th:text="${comm.text}" class="generic-blockquote">
+                                </blockquote>
                             </div>
                             <div sec:authorize="isAuthenticated()">
-                            <div class="row">
-                                <div th:each="el:${news}" class="col-lg-8">
-                                    <form th:action="'/news/'+${el.id}+'/addcom'" method="post"  novalidate="novalidate">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <textarea class="form-control w-100 error" name="text" id="message" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder="Enter Message"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group mt-3">
-                                            <button type="submit" >Send</button>
-                                        </div>
-                                    </form>
-                                </div>
+
+                                <form th:if="${#authentication.getName()==comm.user.userName or #authorization.expression('hasAuthority(''ROLE_ADMIN'')')}"
+                                      th:action="'/news/comments/'+${comm.id}+'/del'" method="post">
+                                    <input type="submit" class="btn btn-primary" value="del">
+                                </form>
                             </div>
-                            </div>
-
-
-                            <!--comments-->
-
-                            <div th:each ="comm: ${commentsAll}" class="section-top-border">
-                                <a class="genric-btn link-border radius" th:href="'/user/'+${comm.user.userName}" th:text="${comm.user.userName}"></a><b th:text="${comm.date}"></b>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <blockquote th:text="${comm.text}" class="generic-blockquote">
-                                        </blockquote>
-                                    </div>
-                                    <div sec:authorize="isAuthenticated()">
-
-                                    <form  th:if="${#authentication.getName()==comm.user.userName or #authorization.expression('hasAuthority(''ROLE_ADMIN'')')}" th:action="'/news/comments/'+${comm.id}+'/del'" method="post">
-                                        <input type="submit" class="btn btn-primary" value="del">
-                                    </form>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <!--comments end-->
-
-                            <div th:each="el:${news}" class="row">
-                                <div class="col-md-12 text-center">
-                                    <!-- customers pagination -->
-                                    <nav aria-label="Pagination" th:if="${commentsAll.totalPages gt 0}">
-                                        <ul class="pagination justify-content-center font-weight-bold">
-                                            <li class="page-item" th:classappend="${commentsAll.number eq 0} ? 'disabled'">
-                                                <a class="page-link"
-                                                   th:href="@{'/news/'+${el.id}+'?page={id}'(id=${commentsAll.number lt 2 ? 1 : commentsAll.number})}"
-                                                   aria-label="Previous" title="Текущая страница" data-toggle="tooltip">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                </a>
-                                            </li>
-                                            <li class="page-item" th:classappend="${i eq commentsAll.number + 1} ? 'active'"
-                                                th:each="i : ${#numbers.sequence( 1, commentsAll.totalPages, 1)}">
-                                                <a class="page-link" th:href="@{'/news/'+${el.id}+'?page={id}'(id=${i})}" th:text="${i}"
-                                                   th:title="${'Страница '+ i}" data-toggle="tooltip"></a>
-                                            </li>
-                                            <li class="page-item" th:classappend="${commentsAll.number + 1 eq commentsAll.totalPages} ? 'disabled'">
-                                                <a class="page-link"
-                                                   th:href="@{'/news/'+${el.id}+'?page={id}'(id=${commentsAll.number + 2})}"
-                                                   aria-label="Next" title="Следующая страница" data-toggle="tooltip">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-
 
                         </div>
-                        <div class="col-lg-4">
-                            <!-- Section Tittle -->
-                            <div class="section-tittle mb-40">
-                                <h3>Follow Us</h3>
-                            </div>
-                            <!-- Flow Socail -->
-                            <div class="single-follow mb-45">
-                                <div class="single-box">
-                                    <div class="follow-us d-flex align-items-center">
-                                        <div class="follow-social">
-                                            <a href="#"><img src="/img/news/icon-fb.png" alt=""></a>
-                                        </div>
-                                        <div class="follow-count">  
-                                            <span>8,045</span>
-                                            <p>Fans</p>
-                                        </div>
-                                    </div> 
-                                    <div class="follow-us d-flex align-items-center">
-                                        <div class="follow-social">
-                                            <a href="#"><img src="/img/news/icon-tw.png" alt=""></a>
-                                        </div>
-                                        <div class="follow-count">
-                                            <span>8,045</span>
-                                            <p>Fans</p>
-                                        </div>
-                                    </div>
-                                        <div class="follow-us d-flex align-items-center">
-                                        <div class="follow-social">
-                                            <a href="#"><img src="/img/news/icon-ins.png" alt=""></a>
-                                        </div>
-                                        <div class="follow-count">
-                                            <span>8,045</span>
-                                            <p>Fans</p>
-                                        </div>
-                                    </div>
-                                    <div class="follow-us d-flex align-items-center">
-                                        <div class="follow-social">
-                                            <a href="#"><img src="/img/news/icon-yo.png" alt=""></a>
-                                        </div>
-                                        <div class="follow-count">
-                                            <span>8,045</span>
-                                            <p>Fans</p>
-                                        </div>
-                                    </div>
+
+                    </div>
+
+                    <!--comments end-->
+
+                    <div th:each="el:${news}" class="row">
+                        <div class="col-md-12 text-center">
+                            <!-- customers pagination -->
+                            <nav class="blog-pagination justify-content-center d-flex" aria-label="Pagination"
+                                 th:if="${commentsAll.totalPages gt 0}">
+                                <ul class="pagination justify-content-center font-weight-bold">
+                                    <li class="page-item" th:classappend="${commentsAll.number eq 0} ? 'disabled'">
+                                        <a class="page-link"
+                                           th:href="@{'/news/'+${el.id}+'?page={id}'(id=${commentsAll.number lt 2 ? 1 : commentsAll.number})}"
+                                           aria-label="Previous" title="Текущая страница" data-toggle="tooltip">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item" th:classappend="${i eq commentsAll.number + 1} ? 'active'"
+                                        th:each="i : ${#numbers.sequence( 1, commentsAll.totalPages, 1)}">
+                                        <a class="page-link" th:href="@{'/news/'+${el.id}+'?page={id}'(id=${i})}"
+                                           th:text="${i}"
+                                           th:title="${'Страница '+ i}" data-toggle="tooltip"></a>
+                                    </li>
+                                    <li class="page-item"
+                                        th:classappend="${commentsAll.number + 1 eq commentsAll.totalPages} ? 'disabled'">
+                                        <a class="page-link"
+                                           th:href="@{'/news/'+${el.id}+'?page={id}'(id=${commentsAll.number + 2})}"
+                                           aria-label="Next" title="Следующая страница" data-toggle="tooltip">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="col-lg-4">
+                    <!-- Section Tittle -->
+                    <div class="section-tittle mb-40">
+                        <h3>Follow Us</h3>
+                    </div>
+                    <!-- Flow Socail -->
+                    <div class="single-follow mb-45">
+                        <div class="single-box">
+                            <div class="follow-us d-flex align-items-center">
+                                <div class="follow-social">
+                                    <a href="#"><img src="/img/news/icon-fb.png" alt=""></a>
+                                </div>
+                                <div class="follow-count">
+                                    <span>8,045</span>
+                                    <p>Fans</p>
                                 </div>
                             </div>
-                            <!-- New Poster -->
-                            <div class="news-poster d-none d-lg-block">
-                                <img src="/img/news/news_card.jpg" alt="">
+                            <div class="follow-us d-flex align-items-center">
+                                <div class="follow-social">
+                                    <a href="#"><img src="/img/news/icon-tw.png" alt=""></a>
+                                </div>
+                                <div class="follow-count">
+                                    <span>8,045</span>
+                                    <p>Fans</p>
+                                </div>
+                            </div>
+                            <div class="follow-us d-flex align-items-center">
+                                <div class="follow-social">
+                                    <a href="#"><img src="/img/news/icon-ins.png" alt=""></a>
+                                </div>
+                                <div class="follow-count">
+                                    <span>8,045</span>
+                                    <p>Fans</p>
+                                </div>
+                            </div>
+                            <div class="follow-us d-flex align-items-center">
+                                <div class="follow-social">
+                                    <a href="#"><img src="/img/news/icon-yo.png" alt=""></a>
+                                </div>
+                                <div class="follow-count">
+                                    <span>8,045</span>
+                                    <p>Fans</p>
+                                </div>
                             </div>
                         </div>
-                   </div>
+                    </div>
+                    <!-- New Poster -->
+                    <div class="news-poster d-none d-lg-block">
+                        <img src="/img/news/news_card.jpg" alt="">
+                    </div>
+                </div>
             </div>
         </div>
-        <!-- About US End -->
-        </th:block>
-    </main>
+    </div>
+    <!-- About US End -->
+    </th:block>
+</main>
 
-    <footer th:insert="block/footer :: footer"></footer>
-   
-	<!-- JS here -->
-	
-		<!-- All JS Custom Plugins Link Here here -->
-        <script src="/js/vendor/modernizr-3.5.0.min.js"></script>
-		
-		<!-- Jquery, Popper, Bootstrap -->
-		<script src="/js/vendor/jquery-1.12.4.min.js"></script>
-        <script src="/js/popper.min.js"></script>
-        <script src="/js/bootstrap.min.js"></script>
-	    <!-- Jquery Mobile Menu -->
-        <script src="/js/jquery.slicknav.min.js"></script>
+<footer th:insert="block/footer :: footer"></footer>
 
-		<!-- Jquery Slick , Owl-Carousel Plugins -->
-        <script src="/js/owl.carousel.min.js"></script>
-        <script src="/js/slick.min.js"></script>
-        <!-- Date Picker -->
-        <script src="/js/gijgo.min.js"></script>
-		<!-- One Page, Animated-HeadLin -->
-        <script src="/js/wow.min.js"></script>
-		<script src="/js/animated.headline.js"></script>
-        <script src="/js/jquery.magnific-popup.js"></script>
+<!-- JS here -->
 
-        <!-- Breaking New Pluging -->
-        <script src="/js/jquery.ticker.js"></script>
-        <script src="/js/site.js"></script>
+<!-- All JS Custom Plugins Link Here here -->
+<script src="/js/vendor/modernizr-3.5.0.min.js"></script>
 
-		<!-- Scrollup, nice-select, sticky -->
-        <script src="/js/jquery.scrollUp.min.js"></script>
-        <script src="/js/jquery.nice-select.min.js"></script>
-		<script src="/js/jquery.sticky.js"></script>
-        
-        <!-- contact js -->
-        <script src="/js/contact.js"></script>
-        <script src="/js/jquery.form.js"></script>
-        <script src="/js/jquery.validate.min.js"></script>
-        <script src="/js/mail-script.js"></script>
-        <script src="/js/jquery.ajaxchimp.min.js"></script>
-        
-		<!-- Jquery Plugins, main Jquery -->	
-        <script src="/js/plugins.js"></script>
-        <script src="/js/main.js"></script>
-        
-    </body>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<!-- Jquery Mobile Menu -->
+<script src="/js/jquery.slicknav.min.js"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/slick.min.js"></script>
+<!-- Date Picker -->
+<script src="/js/gijgo.min.js"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="/js/wow.min.js"></script>
+<script src="/js/animated.headline.js"></script>
+<script src="/js/jquery.magnific-popup.js"></script>
+
+<!-- Breaking New Pluging -->
+<script src="/js/jquery.ticker.js"></script>
+<script src="/js/site.js"></script>
+
+<!-- Scrollup, nice-select, sticky -->
+<script src="/js/jquery.scrollUp.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/jquery.sticky.js"></script>
+
+<!-- contact js -->
+<script src="/js/contact.js"></script>
+<script src="/js/jquery.form.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/mail-script.js"></script>
+<script src="/js/jquery.ajaxchimp.min.js"></script>
+
+<!-- Jquery Plugins, main Jquery -->
+<script src="/js/plugins.js"></script>
+<script src="/js/main.js"></script>
+
+</body>
 </html>

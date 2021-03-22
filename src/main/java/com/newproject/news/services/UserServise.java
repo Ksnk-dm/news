@@ -55,10 +55,12 @@ public class UserServise implements UserDetailsService {
         return userRepository.findById(id);
     }
 
+    @Transactional
     public List<User> allUsers() {
         return userRepository.findAll();
     }
 
+    @Transactional
     public boolean saveUser(User user) {
         System.out.println("!!!!!!!!"+ idNewUser);
         User userFromDB = userRepository.findUserByUserName(user.getUsername());
@@ -78,7 +80,7 @@ public class UserServise implements UserDetailsService {
             userRepository.deleteById(id);
 
     }
-
+    @Transactional
     public void updateResetPasswordToken(String token, String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
         if (user != null) {
@@ -88,11 +90,11 @@ public class UserServise implements UserDetailsService {
             throw new UsernameNotFoundException("Почту не найдено: " + email);
         }
     }
-
+    @Transactional
     public User getByResetPasswordToken(String token) {
         return userRepository.findByResetPasswordToken(token);
     }
-
+    @Transactional
     public void updatePassword(User user, String newPassword) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(newPassword);
@@ -100,19 +102,19 @@ public class UserServise implements UserDetailsService {
         user.setResetPasswordToken(null);
         userRepository.save(user);
     }
-
+    @Transactional
     public void updateEmail(User user, String newEmail){
         user.setEmail(newEmail);
         userRepository.save(user);
     }
 
-
+    @Transactional
     public boolean addRoleToUser(User user, Role role) {
         user.getRoles().add(role);
         userRepository.save(user);
         return true;
     }
-
+    @Transactional
     public boolean delRoleToUser(User user, Role role) {
     Set<Role> roles =user.getRoles();
     roles.remove(role);

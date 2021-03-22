@@ -4,8 +4,6 @@ package com.newproject.news.controllers;
 import com.newproject.news.config.Utility;
 import com.newproject.news.entity.User;
 import com.newproject.news.services.UserServise;
-
-
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;

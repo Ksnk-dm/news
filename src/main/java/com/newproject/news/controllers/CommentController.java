@@ -1,14 +1,12 @@
 package com.newproject.news.controllers;
 
-import com.newproject.news.entity.Category;
 import com.newproject.news.entity.Comments;
 import com.newproject.news.entity.News;
 import com.newproject.news.entity.User;
 import com.newproject.news.services.CommentService;
 import com.newproject.news.services.NewsService;
+import com.newproject.news.services.UserServise;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,12 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class CommentController {
@@ -29,6 +24,8 @@ public class CommentController {
     CommentService commentService;
     @Autowired
     NewsService newsService;
+    @Autowired
+    UserServise userServise;
 
     @PostMapping("/news/comments/{id}/del")
     public String delCom(@PathVariable(value = "id") Long idC, Model model) {
@@ -50,6 +47,13 @@ public class CommentController {
         commentService.addCom(comments);
         newsService.updateNews(news);
         return "redirect:/news/{id}";
+    }
+    @GetMapping("/user/{userName}/comments")
+    public String commentsUsers(@PathVariable(value = "userName") String userName, Model model){
+        User user = userServise.findUserByUsername(userName);
+        List<Comments> comments = user.getComments();
+        model.addAttribute("comments", comments);
+       return "adminpage/user_comments";
     }
 
 }

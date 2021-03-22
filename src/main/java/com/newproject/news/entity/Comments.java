@@ -1,9 +1,9 @@
 package com.newproject.news.entity;
 
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import java.util.UUID;
+import java.util.Objects;
+
 
 @Entity
 public class Comments {
@@ -74,5 +74,29 @@ public class Comments {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comments comments = (Comments) o;
+        return Objects.equals(id, comments.id) && Objects.equals(text, comments.text) && Objects.equals(date, comments.date) && Objects.equals(news, comments.news) && Objects.equals(user, comments.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, text, date, news, user);
+    }
+
+    @Override
+    public String toString() {
+        return "Comments{" +
+                "id=" + id +
+                ", text='" + text + '\'' +
+                ", date='" + date + '\'' +
+                ", news=" + news +
+                ", user=" + user +
+                '}';
     }
 }

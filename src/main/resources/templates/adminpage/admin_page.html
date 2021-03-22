@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>админка</title>
+    <title>Админка</title>
     <!-- CSS here -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/owl.carousel.min.css">
@@ -22,13 +22,43 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-<form method="post" action="/adminpage/addrole">
-    <input type="submit" value="addrole"></input>
-</form>
 
-<li><button type="button" id="delete_user" class="btn btn-default navbar-btn">Delete user</button></li>
+
+
 <div  class="section-top-border">
+    <h3 class="mb-30">Роли</h3>
+    <li><button type="button" id="delete_role" class="btn btn-default navbar-btn">Удалить роль</button></li>
+    <div class="progress-table-wrap">
+        <div   class="progress-table">
+            <div class="table-head">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Название роли</th>
+                        <th scope="col">Кол-во пользователей</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="el:${role}">
+                        <td><input type="checkbox" name="toDeleteRole[]" th:value="${el.id}" th:id="'checkbox_'+${el.id}">
+                        </td>
+                        <td><a class="text-primary" th:href="'/user/'+${el.name}" th:text="${el.name}"></a></td>
+                        <td><a th:text="${el.users.size()}"></a></td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
     <h3 class="mb-30">Пользователи</h3>
+    <li><button type="button" id="delete_user" class="btn btn-default navbar-btn">Удалить пользователя</button></li>
     <div class="progress-table-wrap">
         <div   class="progress-table">
             <div class="table-head">
@@ -49,7 +79,7 @@
                         <td><a class="text-primary" th:href="'/user/'+${el.userName}" th:text="${el.userName}"></a></td>
                         <td><a th:text="${el.roles}"></a></td>
                         <td><a th:text="${el.email}"></a></td>
-                        <td><a th:text="${el.comments.size()}"></a></td>
+                        <td><a class="text-primary" th:href="'/user/'+${el.userName}+'/comments'" th:text="${el.comments.size()}"></a></td>
                     </tr>
                     </tbody>
                 </table>
@@ -77,6 +107,20 @@
         $.post("/adminpage/deluser", data, function (data, status) {
             window.location.reload();
         });
-    });</script>
+    });
+
+
+
+    $('#delete_role').click(function () {
+        var data = {'toDeleteRole[]': []};
+        $(":checked").each(function () {
+            data['toDeleteRole[]'].push($(this).val());
+        });
+        $.post("/adminpage/delrole", data, function (data, status) {
+            window.location.reload();
+        });
+    });
+
+</script>
 </body>
 </html>

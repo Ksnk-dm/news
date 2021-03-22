@@ -1,6 +1,6 @@
 package com.newproject.news.controllers;
 
-import com.newproject.news.entity.News;
+
 import com.newproject.news.entity.Role;
 import com.newproject.news.entity.User;
 import com.newproject.news.services.RoleServise;
@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,9 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+
 
 @Controller
 public class AdminPageController {
@@ -82,9 +79,11 @@ public class AdminPageController {
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
-    @PostMapping("/adminpage/delrole/{id}")
-    public ResponseEntity<?> delRole(@PathVariable Long id) {
-        roleServise.delRole(id);
+    @PostMapping("/adminpage/delrole")
+    public ResponseEntity<?> delRole(@RequestParam(value = "toDeleteRole[]", required = false)
+                                                 long[] toDelete) {
+        if (toDelete != null && toDelete.length > 0)
+        roleServise.delRole(toDelete);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 

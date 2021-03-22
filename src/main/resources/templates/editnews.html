@@ -1,26 +1,90 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Редактирование новости</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/ticker-style.css">
+    <link rel="stylesheet" href="/css/flaticon.css">
+    <link rel="stylesheet" href="/css/slicknav.css">
+    <link rel="stylesheet" href="/css/animate.min.css">
+    <link rel="stylesheet" href="/css/magnific-popup.css">
+    <link rel="stylesheet" href="/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/css/themify-icons.css">
+    <link rel="stylesheet" href="/css/slick.css">
+    <link rel="stylesheet" href="/css/nice-select.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
 </head>
 <body>
+<header th:insert="block/header :: header"></header>
+<main>
+    <!-- About US Start -->
+    <div class="about-area">
+        <div class="container">
 
-<form th:action="edit", method="post">
-<th:block th:each ="newsdetail:${news}">
-    <input name="title" th:value="${newsdetail.title}" placeholder="title">
-    <input name="anonce" th:value="${newsdetail.anonce}" placeholder="anonce">
-    <input name="img" th:value="${newsdetail.img}" placeholder="img">
-    <input name="fullText" th:value="${newsdetail.fullText}" placeholder="fullText">
-    <input name="date" th:value="${newsdetail.date}" placeholder="date">
-    <b th:text="${newsdetail.category.getName()}"/>
-    <select  name="category">
-    <th:block th:each ="category:${category}">
-        <option  th:value="${category.id}" th:text="${category.name}"></option>
-    </th:block>
-    </select>
-</th:block>
-    <input type="submit" class="btn btn-primary" value="update">
-</form>
+            <div class="section-top-border">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8">
+                        <h3 class="mb-30">Редактировать новость:</h3>
+
+                    </div>
+                </div>
+
+                <th:block th:each="newsdetail:${news}">
+                    <form th:action="edit" method="post">
+                            <div class="mt-10">
+                                <label> ссылка на внутренний сервер</label>
+                                <input name="img" class="form-control" th:value="${newsdetail.img}" placeholder="">
+                            </div>
+                            <div  class="mt-10">
+                                <label>   ссылка на внешний рессурс</label>
+                                <input name="urlImg" class="form-control" th:value="${newsdetail.url}" placeholder="">
+                            </div>
+                        <div class="mt-10">
+                            <label>Введите заголовок: </label>
+                        <input name="title" class="form-control" th:value="${newsdetail.title}" placeholder="title">
+                        </div>
+                        <div class="mt-10">
+                            <label>Введите анонс: </label>
+                        <input class="form-control" name="anonce" th:value="${newsdetail.anonce}" placeholder="anonce">
+                        </div>
+                        <div class="mt-10">
+                            <label>Введите ссылку на видео: </label>
+                            <input class="form-control" name="video" th:value="${newsdetail.video}" placeholder="anonce">
+                        </div>
+                        <div class="mt-10">
+                            <label>Введите полный текст: </label>
+                            <textarea class="single-input" name="fullText"  th:value="${newsdetail.fullText}" th:text="${newsdetail.fullText}"></textarea>
+                        </div>
+
+
+                        <div class="mt-10">
+                            <label>Категория сейчас <b th:text="${newsdetail.category.name}"></b> Введите другую категорию: </label>
+                        <select name="category">
+                            <th:block th:each="category:${category}">
+                                <option th:value="${category.id}" th:text="${category.name}"></option>
+                            </th:block>
+                        </select>
+                        </div>
+                        <input type="submit" class="btn btn-primary" value="Обновить">
+                    </form>
+                </th:block>
+
+
+            </div>
+        </div>
+    </div>
+</main>
+
 </body>
 </html>

@@ -72,9 +72,9 @@
                         <form action="/news/addnews" , method="post">
                             <div class="mt-10">
                                 <label for="title">Ссылка на изображение внешний ресурс</label>
-                                <input  type="text" name="imgUrl" placeholder="изображение внешний ресурс">
+                              <p>  <input  type="text" name="imgUrl" placeholder="изображение внешний ресурс"></p>
                             </div>
-                            <input name="img" id="urlInput" placeholder="img">
+                            <input  class="single-input" name="img" id="urlInput" placeholder="img">
                             <div >
                                 <b>Укажите категорию:</b>
                                 <p><select name="category">
@@ -85,8 +85,6 @@
                             </div>
 
             </div>
-
-
                             <div class="mt-10">
                               <label for="title">Введите заголовок</label>
                                 <input id="title" type="text" name="title" placeholder="Заголовок"
@@ -109,9 +107,7 @@
                             </div>
                             <div class="mt-10">
                                 <label>Введите ссылку на видео</label>
-                                <input type="text" name="video" placeholder="Видео ссылка"
-                                       onfocus="this.placeholder = ''" onblur="this.placeholder = 'Видео'" required
-                                       class="single-input">
+                                <input type="text" name="video" placeholder="Видео ссылка">
                             </div>
 
 
