@@ -42,7 +42,6 @@ public class ForgotPassController {
             String resetPasswordLink = Utility.getSiteURL(request) + "/reset_password?token=" + token;
             sendEmail(email, resetPasswordLink);
             model.addAttribute("message", "Мы отправили форму восстановления Вам на почту.");
-
         } catch (UsernameNotFoundException ex) {
             model.addAttribute("error", ex.getMessage());
         } catch (UnsupportedEncodingException | MessagingException e) {

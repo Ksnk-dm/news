@@ -38,6 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/adminpage/**").hasAnyRole("ADMIN")
                 .antMatchers("/news/addnews","/news/upload","/news/del","/news/{id}/del","/news/{id}/edit","/news/addCategory")
                 .hasAnyRole("ADMIN","REDACTOR")
+                .antMatchers("/users/{userName}")
+                .authenticated()
                 .antMatchers("/news/{id}/**","/news/comments/**", "/contact").permitAll()
                 .antMatchers("/","/reset_password", "/forgot_password", "/resources/**", "/css/**", "/fonts/**", "/img/**", "/js/**","/js/vendor", "/scss/**","/uploads/**").permitAll()
                 .anyRequest().authenticated()

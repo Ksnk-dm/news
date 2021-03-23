@@ -70,6 +70,8 @@
                         <th scope="col">Роль</th>
                         <th scope="col">Email</th>
                         <th scope="col">Комментарии</th>
+                        <th scope="col">Активность</th>
+                        <th scope="col">Рассылка</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -80,6 +82,8 @@
                         <td><a th:text="${el.roles}"></a></td>
                         <td><a th:text="${el.email}"></a></td>
                         <td><a class="text-primary" th:href="'/user/'+${el.userName}+'/comments'" th:text="${el.comments.size()}"></a></td>
+                        <td><input type="checkbox" th:checked="${el.isEnabled()==true}"></td>
+                        <td><input type="checkbox" th:checked="${el.sendEmail==true}"></td>
                     </tr>
                     </tbody>
                 </table>

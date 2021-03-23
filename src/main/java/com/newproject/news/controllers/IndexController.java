@@ -37,7 +37,6 @@ public class IndexController {
     @GetMapping("/")
     public String viewIndexPage(Model model, HttpServletRequest request) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd MMM yyyy");
-        System.out.println("!!!!!!!"+mainCategory+"    "+ blockCategory);
         List<News> oneNews = newsService.findByCategory(mainCategory);
         List<News> category = newsService.findByCategory(blockCategory);
         Pageable sortedById = PageRequest.of(0, 4, Sort.by(Sort.Direction.DESC, "id"));
@@ -59,25 +58,6 @@ public class IndexController {
     }
 
 
-    public Pageable pageable(HttpServletRequest request) {
-        int page = 0;
-        int size = 4;
-        try {
-            if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
-                page = Integer.parseInt(request.getParameter("page")) - 1;
-                if (page < 0) {
-                }
-            }
-            if (request.getParameter("size") != null && !request.getParameter("size").isEmpty()) {
-                size = Integer.parseInt(request.getParameter("size"));
-            }
-            Pageable sortedById = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
-            return sortedById;
-        } catch (IllegalArgumentException | NullPointerException e) {
-            System.out.println(e);
-        }
-        return null;
-    }
 
 
 }

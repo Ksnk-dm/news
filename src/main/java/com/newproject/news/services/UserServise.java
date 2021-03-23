@@ -62,24 +62,27 @@ public class UserServise implements UserDetailsService {
 
     @Transactional
     public boolean saveUser(User user) {
-        System.out.println("!!!!!!!!"+ idNewUser);
         User userFromDB = userRepository.findUserByUserName(user.getUsername());
         User userFromDBEmail = userRepository.findByEmail(user.getEmail());
         Role role = roleRepository.getById(Long.valueOf(idNewUser));
         if (userFromDB != null||userFromDBEmail!=null) {
             return false;
         }
+        user.setSendEmail(false);
         user.setRoles(Collections.singleton(role));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return true;
     }
+
+
     @Transactional
     public void deleteUser(long[] userId) {
             for (long id : userId)
             userRepository.deleteById(id);
-
     }
+
+
     @Transactional
     public void updateResetPasswordToken(String token, String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
@@ -94,6 +97,7 @@ public class UserServise implements UserDetailsService {
     public User getByResetPasswordToken(String token) {
         return userRepository.findByResetPasswordToken(token);
     }
+
     @Transactional
     public void updatePassword(User user, String newPassword) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -103,9 +107,14 @@ public class UserServise implements UserDetailsService {
         userRepository.save(user);
     }
     @Transactional
-    public void updateEmail(User user, String newEmail){
+    public boolean updateEmail(User user, String newEmail){
+        User userDB = userRepository.findUserByEmail(newEmail);
+        if(userDB!=null){
+            return false;
+        }
         user.setEmail(newEmail);
         userRepository.save(user);
+        return true;
     }
 
     @Transactional

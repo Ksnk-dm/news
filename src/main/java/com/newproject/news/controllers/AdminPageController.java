@@ -18,16 +18,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-
 @Controller
 public class AdminPageController {
     @Autowired
     private UserServise userServise;
-
     @Autowired
     private RoleServise roleServise;
     @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping("/adminpage")
     public String viewAdminPage(Model model) {
@@ -39,7 +37,7 @@ public class AdminPageController {
 
 
     @GetMapping("/user/{userName}")
-    public String viewUserPage(@PathVariable(value = "userName") String username,Model model) {
+    public String viewUserPage(@PathVariable(value = "userName") String username, Model model) {
         model.addAttribute("role", roleServise.findAll());
         model.addAttribute("user", userServise.findUserByUsername(username));
         return "adminpage/user_page";
@@ -65,10 +63,10 @@ public class AdminPageController {
 
     @PostMapping("/user/{userName}/delrole")
     @PreAuthorize("#usernameDel == authentication.principal.username or hasRole('ROLE_ADMIN')")
-    public String delUserRole(@PathVariable(value = "userName") String usernameDel,@RequestParam(value = "rolesName") long rolesId) {
+    public String delUserRole(@PathVariable(value = "userName") String usernameDel, @RequestParam(value = "rolesName") long rolesId) {
         User user = userServise.findUserByUsername(usernameDel);
         Role role = roleServise.findRole(rolesId);
-        userServise.delRoleToUser(user,role);
+        userServise.delRoleToUser(user, role);
         return "redirect:/user/{userName}";
     }
 
@@ -81,23 +79,42 @@ public class AdminPageController {
 
     @PostMapping("/adminpage/delrole")
     public ResponseEntity<?> delRole(@RequestParam(value = "toDeleteRole[]", required = false)
-                                                 long[] toDelete) {
+                                             long[] toDelete) {
         if (toDelete != null && toDelete.length > 0)
-        roleServise.delRole(toDelete);
+            roleServise.delRole(toDelete);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
-    @PostMapping("/user/{id}/changepass")
-    public String editPassword (@PathVariable(value ="id") Long id, @RequestParam String pass, Model model){
-        User user = userServise.findUserById(id);
+    @PostMapping("/user/{userName}/changepass")
+    public String editPassword(@PathVariable(value = "userName") String userName, @RequestParam String pass, Model model) {
+        User user = userServise.findUserByUsername(userName);
         userServise.updatePassword(user, pass);
-        return "redirect:/user/{id}";
+        model.addAttribute("pass", "Пароли не совпадают");
+        return "redirect:/user/{userName}";
+
     }
 
-    @PostMapping("/user/{id}/changeemail")
-    public ResponseEntity<?> editEmail(@PathVariable(value ="id") Long id, @RequestParam String email, Model model){
-        User user= userServise.findUserById(id);
-        userServise.updateEmail(user,email);
+    @PostMapping("/user/{userName}/changeemail")
+    public ResponseEntity<?> editEmail(@PathVariable(value = "userName") String userName, @RequestParam String email, Model model) {
+        User user = userServise.findUserByUsername(userName);
+        if (!userServise.updateEmail(user, email)) {
+            return new ResponseEntity<>("BAD", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("OK", HttpStatus.OK);
+    }
+
+    @PostMapping("/user/{id}/changeSend")
+    public ResponseEntity<?> editEmailSend(@PathVariable(value = "id") Long id, @RequestParam("radio") Boolean radio) {
+        User user = userServise.findUserById(id);
+        user.setSendEmail(radio);
+        userServise.saveUser(user);
+        return new ResponseEntity<>("OK", HttpStatus.OK);
+    }
+
+    @PostMapping("/user/{id}/block")
+    public ResponseEntity<?> blockUser(@PathVariable(value = "id") Long id, @RequestParam("block") Boolean radio) {
+        User user = userServise.findUserById(id);
+        userServise.saveUser(user);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 }

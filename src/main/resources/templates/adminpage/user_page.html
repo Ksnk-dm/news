@@ -3,41 +3,146 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User setting</title>
+    <title>Информация про пользователя</title>
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+
+    <link rel="stylesheet" href="/css/ticker-style.css">
+
+    <link rel="stylesheet" href="/css/flaticon.css">
+
+    <link rel="stylesheet" href="/css/slicknav.css">
+    <link rel="stylesheet" href="/css/animate.min.css">
+    <link rel="stylesheet" href="/css/magnific-popup.css">
+    <link rel="stylesheet" href="/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/css/themify-icons.css">
+    <link rel="stylesheet" href="/css/slick.css">
+    <link rel="stylesheet" href="/css/nice-select.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
 </head>
 <body>
-<div th:each="us:${user}">
-    <p th:text="${us.userName}"></p>
-    <p th:each="role:${us.getRoles()}" th:text="${role.name}"></p>
-    <form sec:authorize="hasRole('ROLE_ADMIN')" id="addroleform" th:action="'/user/'+${us.userName}+'/addrol'" method="post" >
-    <p><select name="roles">
-        <th:block th:each="el:${role}">
-            <option th:value="${el.id}" th:text="${el.name}"></option>
-        </th:block>
-    </select></p>
-        <button  type="submit" id="addButton" >Добавить роль</button>
-    </form>
-    <form sec:authorize="hasRole('ROLE_ADMIN')" method="post" th:action="'/user/'+${us.userName}+'/delrole'">
-        <b>Укажите роль:</b>
-        <p><select name="rolesName">
-            <th:block th:each="el:${us.getRoles()}">
-                <option th:value="${el.id}" th:text="${el.name}"></option>
-            </th:block>
-        </select></p>
-        <input type="submit" value="удалить роль">
-    </form>
-    <p th:text="${us.password}"></p>
-<a th:text="${#authentication.name}"></a>
-    <form th:if="${#authentication.getName()==us.userName or #authorization.expression('hasAuthority(''ROLE_ADMIN'')')}" th:action="'/user/'+${us.id}+'/changepass'" method="post">
-        <input type="text" name="pass">
-        <input type="submit" value="update pass">
-    </form>
+<header th:insert="block/header :: header"></header>
+<main>
+    <!-- About US Start -->
+    <div class="about-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row justify-content-center align-items-center pb-3">
 
-    <p th:text="${us.email}"></p>
-    <form th:if="${#authentication.getName()==us.userName or #authorization.expression('hasAuthority(''ROLE_ADMIN'')')}" th:action="'/user/'+${us.id}+'/changeemail'" method="post">
-        <input type="text" name="email">
-        <input type="submit" value="update">
-    </form>
+                        <div class="mt-10">
+                            <div th:each="us:${user}">
+                                Страница пользователя:
+                                <H3 class="mb-30" th:text="${us.userName}"></H3>
+                                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                                    <b>Роли:</b>
+                                    <a th:each="role:${us.getRoles()}" th:text="${role.name}+', '"></a>
+                                    <form sec:authorize="hasRole('ROLE_ADMIN')" id="addroleform"
+                                          th:action="'/user/'+${us.userName}+'/addrol'" method="post">
+                                        <p><select class="nice-select" name="roles">
+                                            <th:block th:each="el:${role}">
+                                                <option th:value="${el.id}" th:text="${el.name}"></option>
+                                            </th:block>
+                                        </select></p>
+                                        <button type="submit" class="genric-btn info circle arrow"  id="addButton">Добавить роль</button>
+                                    </form>
+                                </div>
+                                <form sec:authorize="hasRole('ROLE_ADMIN')" method="post"
+                                      th:action="'/user/'+${us.userName}+'/delrole'">
+                                    <b>Укажите роль:</b>
+                                    <p><select class="nice-select" name="rolesName">
+                                        <th:block th:each="el:${us.getRoles()}">
+                                            <option th:value="${el.id}" th:text="${el.name}"></option>
+                                        </th:block>
+                                    </select></p>
+                                    <input type="submit" class="genric-btn info circle arrow"  value="удалить роль">
+                                </form>
+                                <div class="mt-10">
+                                <form th:if="${#authentication.getName()==us.userName or #authorization.expression('hasAuthority(''ROLE_ADMIN'')')}"
+                                      th:action="'/user/'+${us.userName}+'/changepass'" method="post">
+                                    <b> Введите новый пароль:</b>
+                                    <input type="password" class="single-input" name="pass">
+                                    <input type="submit" class="genric-btn info circle arrow" value="Обновить пароль">
+                                </form>
+                                </div>
+                                <b> Email:</b>
+                                <p th:text="${us.email}"></p>
+                                <form th:if="${#authentication.getName()==us.userName or #authorization.expression('hasAuthority(''ROLE_ADMIN'')')}"
+                                      th:action="'/user/'+${us.userName}+'/changeemail'" method="post">
+                                    <input class="single-input" type="text" name="email">
+                                    <input type="submit" class="genric-btn info circle arrow" value="Обновить почту">
+                                </form>
+                                <b th:text="${emailMes}"></b>
+                                <form th:if="${#authentication.getName()==us.userName or #authorization.expression('hasAuthority(''ROLE_ADMIN'')')}" th:action="'/user/'+${us.id}+'/changeSend'" method="post">
+                                    <input name="radio" type="radio" value="true" th:checked="${us.sendEmail==true}">Получать рассылку</p>
+                                    <input name="radio" type="radio" value="false" th:checked="${us.sendEmail==false}">Не получать рассылку</p>
+                                    <input type="submit" class="genric-btn info circle arrow" value="Сохранить">
+                                </form>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</main>
+<footer th:insert="block/footer :: footer"></footer>
+
+<!-- JS here -->
+
+<!-- All JS Custom Plugins Link Here here -->
+<script src="./js/vendor/modernizr-3.5.0.min.js"></script>
+<!-- Jquery, Popper, Bootstrap -->
+<script src="./js/vendor/jquery-1.12.4.min.js"></script>
+<script src="./js/popper.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<!-- Jquery Mobile Menu -->
+<script src="./js/jquery.slicknav.min.js"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="./js/owl.carousel.min.js"></script>
+<script src="./js/slick.min.js"></script>
+<!-- Date Picker -->
+<script src="./js/gijgo.min.js"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="./js/wow.min.js"></script>
+<script src="./js/animated.headline.js"></script>
+<script src="./js/jquery.magnific-popup.js"></script>
+
+<!-- Breaking New Pluging -->
+<script src="./js/jquery.ticker.js"></script>
+<script src="./js/site.js"></script>
+
+<!-- Scrollup, nice-select, sticky -->
+<script src="./js/jquery.scrollUp.min.js"></script>
+<script src="./js/jquery.nice-select.min.js"></script>
+<script src="./js/jquery.sticky.js"></script>
+
+<!-- contact js -->
+<script src="./js/contact.js"></script>
+<script src="./js/jquery.form.js"></script>
+<script src="./js/jquery.validate.min.js"></script>
+<script src="./js/mail-script.js"></script>
+<script src="./js/jquery.ajaxchimp.min.js"></script>
+
+<!-- Jquery Plugins, main Jquery -->
+<script src="./js/plugins.js"></script>
+<script src="./js/main.js"></script>
+
+
 </div>
 </body>
 </html>
