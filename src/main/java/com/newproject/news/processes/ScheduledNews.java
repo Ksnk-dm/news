@@ -31,7 +31,7 @@ public class ScheduledNews {
     private String mainCategory;
 
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 100000) //установить с файла конфигурации время
     public void sendNewsToEmail() throws UnsupportedEncodingException, MessagingException {
         List<User> users = userServise.allUsers();
         for (User email : users) {
