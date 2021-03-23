@@ -16,7 +16,7 @@ public class News {
     private String title;
     private String anonce;
     private String img;
-    @Column(length = 2048)
+    @Column(length = 6144)
     private String fullText;
     private String date;
     private String video;
